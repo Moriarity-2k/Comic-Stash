@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
+    background-color: rgba(255, 249, 249, 0.603);
+} */
+
+:root {
+	--orange: #ff4d5a;
+	--white: #fff;
+	--darknavy: #072142;
+	--greysecondary: #6c757d;
+	--greyprimary: #6c757d;
+	--primary: #ff4d5a;
+	--somedarkcolor: #111111;
+}

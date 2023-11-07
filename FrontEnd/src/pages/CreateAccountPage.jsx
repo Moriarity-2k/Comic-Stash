@@ -6,9 +6,12 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import SpinnerMini from "../ui/SpinnerMini";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { user_login } from "../store";
 
 function CreateAccountF() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [searchParams] = useSearchParams();
 
 	const {
@@ -26,12 +29,15 @@ function CreateAccountF() {
 			data: { ...data, passwordConfirm: data.password },
 			withCredentials: "include",
 		});
+		console.log(x);
+		return x.data.data;
 	};
 
 	const { mutate, isError, status } = useMutation({
 		mutationKey: ["signup"],
 		mutationFn: (data) => singUp(data),
-		onSuccess: () => {
+		onSuccess: (data) => {
+			dispatch(user_login(data));
 			toast.success("SingUp SuccessFul . Redirecting to home page");
 			if (searchParams.get("redirect")) {
 				navigate("/address");
@@ -51,7 +57,7 @@ function CreateAccountF() {
 	if (status === "pending") return <SpinnerMini />;
 	else
 		return (
-			<div className="w-[90%] text-white lg:max-w-[60%] mt-24 xl:max-w-[45%] font-poppins mx-auto">
+			<div className="w-[90%] text-white lg:max-w-[60%] mt-24 lg:mt-44 xl:max-w-[45%] font-poppins mx-auto">
 				<div className="space-y-6 basis-2/4 lg:pr-[8%]">
 					{/* note: first two lines div */}
 					<div className="text-center space-y-4 mb-12">
@@ -78,6 +84,7 @@ function CreateAccountF() {
 								name="name"
 								holder="Elon"
 								register={register}
+								type="text"
 							/>
 							<div className=" text-red-500 text-xs">
 								{signUpErrors.name && signUpErrors.name.message}
@@ -88,6 +95,7 @@ function CreateAccountF() {
 							<Input
 								name="lastName"
 								holder="Musk"
+								type="text"
 								register={register}
 							/>
 							<div className=" text-red-500 text-xs">

@@ -7,7 +7,12 @@ const {
 	deleteOneBook,
 } = require("../controller/booksController");
 const reviewRouter = require("./reviewRoutes");
-const { protect, restricTo } = require("../controller/authController");
+const {
+	protect,
+	restricTo,
+	uploadImage,
+	resizeComicImages,
+} = require("../controller/authController");
 
 const router = Router();
 
@@ -17,7 +22,13 @@ router.use("/:bookId/reviews", reviewRouter);
 router
 	.route("/")
 	.get(getAllBooks)
-	.post(protect, restricTo("admin author"), createBook);
+	.post(
+		protect,
+		restricTo("admin", "author"),
+		uploadImage,
+		resizeComicImages,
+		createBook
+	);
 
 // get by Id and update
 router

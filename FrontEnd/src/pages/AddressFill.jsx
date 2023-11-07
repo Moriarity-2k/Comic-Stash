@@ -79,7 +79,7 @@ const AdFill = () => {
 	}
 
 	return (
-		<div className="w-[95%] md:w-[80%] text-[#ffffffc2] font-mono lg:max-w-[60%] mt-24 md:mt-28 lg:mt-36 xl:max-w-[50%] mx-auto">
+		<div className="w-[95%] md:w-[80%] text-[#ffffffc2] lg:max-w-[60%] mt-24 md:mt-28 lg:mt-36 xl:max-w-[50%] mx-auto">
 			<div className="my-4 md:my-6 lg:my-10 lg:text-3xl font-bold tracking-widest uppercase">
 				Address
 			</div>
@@ -90,6 +90,7 @@ const AdFill = () => {
 						name="address"
 						holder="Doyers Street"
 						register={register}
+						type="text"
 					/>
 					<div className=" text-red-500 text-xs">
 						{signUpErrors.address && signUpErrors.address.message}
@@ -97,7 +98,12 @@ const AdFill = () => {
 				</div>
 				<div className="flex items-start flex-col gap-2">
 					<Label name="City" />
-					<Input name="city" holder="NewYork" register={register} />
+					<Input
+						name="city"
+						type="text"
+						holder="NewYork"
+						register={register}
+					/>
 					<div className=" text-red-500 text-xs">
 						{signUpErrors.city && signUpErrors.city.message}
 					</div>

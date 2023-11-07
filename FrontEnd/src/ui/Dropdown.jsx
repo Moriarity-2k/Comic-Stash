@@ -51,6 +51,18 @@ function Dropdown({ user }) {
 					>
 						My profile
 					</NavLink>
+					{user.role === "admin" && (
+						<NavLink
+							to="/new-book"
+							href="#"
+							className="text-gray-700 block px-4 py-2 text-sm"
+							role="menuitem"
+							tabIndex="-1"
+							id="menu-item-0"
+						>
+						    Upload New Comic
+						</NavLink>
+					)}
 					<NavLink
 						href="#"
 						className="text-gray-700 block px-4 py-2 text-sm"

@@ -3,6 +3,23 @@ import axios from "axios";
 import { useState } from "react";
 import EachCard from "../ui/EachCard";
 
+import styled from "styled-components";
+import Ripple from "../ui/Ripple";
+
+const Button = styled.button`
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+	// top: 200px;
+	padding: 5px 30px;
+	// color: #fff;
+	// font-size: 20px;
+	// border-radius: 20px;
+	// border: 1px solid #fff;
+	text-align: center;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+`;
+
 const Categores = () => {
 	const [cat, setCat] = useState("action");
 
@@ -17,29 +34,63 @@ const Categores = () => {
 	return (
 		// <div className="text-white font-mono  mt-12 w-[93%] mx-auto">
 		<div className="w-[98%] mt-44 text-white font-mono pt-4 pb-4 xl:max-w-[80%] md:mx-auto">
-			{/* humour action adventure fantasy mystery */}
-			<div className="flex gap-8">
-				{/* <h1>All Categories</h1> */}
-				{/* <select
-					className="bg-black border-wierdBlue px-4 py-2 border "
-					value={cat}
-					onChange={(e) => {
-						console.log(e.target.value);
-						setCat(e.target.value);
+			<div className="flex ml-2 gap-2 md:gap-4 text-xs md:text-lg lg:text-xl lg:gap-8">
+				<Button
+					className="p-1 lg:py-2 lg:px-4 uppercase rounder-md"
+					onClick={() => setCat("action")}
+					style={{
+						backgroundColor: `${cat === "action" ? "#0179ca" : ""}`,
 					}}
 				>
-					<option value="action">Action</option>
-					<option value="adventure">Adventure</option>
-					<option value="fantasy">Fantasy</option>
-					<option value="super-hero">Mystery</option>
-					<option value="humour">Humour</option>
-				</select> */}
-                
-				<button className="py-2 px-4 uppercase text-base md:text-lg lg:text-xl rounded-full border-slate-300 border" onClick={() => setCat("action")}>Action</button>
-				<button className="py-2 px-4 uppercase text-base md:text-lg lg:text-xl rounded-full border-slate-300 border" onClick={() => setCat("adventure")}>adventure</button>
-				<button className="py-2 px-4 uppercase text-base md:text-lg lg:text-xl rounded-full border-slate-300 border" onClick={() => setCat("fantasy")}>fantasy</button>
-				<button className="py-2 px-4 uppercase text-base md:text-lg lg:text-xl rounded-full border-slate-300 border" onClick={() => setCat("super-hero")}>super-hero</button>
-				<button className="py-2 px-4 uppercase text-base md:text-lg lg:text-xl rounded-full border-slate-300 border" onClick={() => setCat("humour")}>humour</button>
+					<Ripple duration={800} color="plum" />
+					Action
+				</Button>
+				<Button
+					className="p-1 lg:py-2 lg:px-4 uppercase rounder-md"
+					onClick={() => setCat("adventure")}
+					style={{
+						backgroundColor: `${
+							cat === "adventure" ? "#0179ca" : ""
+						}`,
+					}}
+				>
+					<Ripple duration={800} color="plum" />
+					adventure
+				</Button>
+				<Button
+					className="p-1 lg:py-2 lg:px-4 uppercase rounder-md"
+					onClick={() => setCat("fantasy")}
+					style={{
+						backgroundColor: `${
+							cat === "fantasy" ? "#0179ca" : ""
+						}`,
+					}}
+				>
+					<Ripple duration={800} color="plum" />
+					fantasy
+				</Button>
+				<Button
+					className="p-1 lg:py-2 lg:px-4 uppercase rounder-md"
+					onClick={() => setCat("super-hero")}
+					style={{
+						backgroundColor: `${
+							cat === "super-hero" ? "#0179ca" : ""
+						}`,
+					}}
+				>
+					<Ripple duration={800} color="plum" />
+					mystery
+				</Button>
+				<Button
+					className="p-1 lg:py-2 lg:px-4 uppercase rounder-md"
+					onClick={() => setCat("humour")}
+					style={{
+						backgroundColor: `${cat === "humour" ? "#0179ca" : ""}`,
+					}}
+				>
+					<Ripple duration={800} color="plum" />
+					humour
+				</Button>
 			</div>
 
 			{/* Elements */}
@@ -54,6 +105,7 @@ const Categores = () => {
 				<div className="flex items-center flex-wrap gap-6 md:gap-10 ml-8 md:ml-4 last:justify-start justify-evenly">
 					{data &&
 						data.map((x) => {
+                            console.log(x.genre)
 							if (x.genre === cat) {
 								return (
 									<EachCard
@@ -63,6 +115,7 @@ const Categores = () => {
 										price={x.price}
 										id={x._id}
 										name={x.name}
+										slug={x.slug}
 									/>
 								);
 							}

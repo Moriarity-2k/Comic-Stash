@@ -1,18 +1,17 @@
 import { AiOutlineCopyrightCircle } from "react-icons/ai";
 
-import { BiLogoFacebook, BiLogoLinkedin } from "react-icons/bi";
-import { BiLogoTwitter } from "react-icons/bi";
+// import { BiLogoFacebook, BiLogoLinkedin } from "react-icons/bi";
+// import { BiLogoTwitter } from "react-icons/bi";
 
 function Footer() {
 	return (
 		<div className=" bg-white text-center text-gray-800 font-poppins mt-12">
-
 			<div className="text-center py-4">
 				<AiOutlineCopyrightCircle className="inline mr-4" />
 				<span>Comic Stash 2023. All rights reserved</span>
 			</div>
 
-            {/* <div>
+			{/* <div>
                 This is a practise project
             </div> */}
 

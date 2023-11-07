@@ -13,8 +13,7 @@ import Product from "./pages/Product";
 import Home from "./pages/Home";
 import ForPassword from "./pages/ForPassword";
 import UserAccount from "./pages/UserAccount";
-import FeaturedAll from "./pages/FeaturedAll";
-import NewArrivals from "./pages/NewArrivals";
+import ShowCase from "./pages/ShowCase";
 import Categores from "./pages/Categores";
 import WishList from "./pages/WishList";
 import CartP from "./pages/CartP";
@@ -22,6 +21,7 @@ import AddressFill from "./pages/AddressFill";
 
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
+import AdminBook from "./pages/AdminBook";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -42,13 +42,14 @@ const router = createBrowserRouter([
 				errorElement: <Error />,
 			},
 			{
-				path: "/featured",
-				element: <FeaturedAll />,
+				path: "/new-book",
+				element: <AdminBook />,
 				errorElement: <Error />,
 			},
+
 			{
-				path: "/newarrivals",
-				element: <NewArrivals />,
+				path: "/showcase/:showParam",
+				element: <ShowCase />,
 				errorElement: <Error />,
 			},
 			{
@@ -132,4 +133,3 @@ function App() {
 }
 
 export default App;
-

@@ -4,7 +4,7 @@ export default function AccInstall() {
 	return (
 		<div className="flex flex-col gap-2 items-center ">
 			<img
-				className="h-16 bg-[#fff] invert"
+				className="h-16 invert"
 				src={accountInstallments3}
 				alt="Van_Image"
 			/>

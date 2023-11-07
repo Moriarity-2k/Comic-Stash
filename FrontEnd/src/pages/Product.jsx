@@ -66,6 +66,7 @@ function Product() {
 				name: eachComic.name,
 				price: eachComic.price,
 				image: eachComic.image,
+				slug: eachComic.slug,
 			})
 		);
 		toast.success("Item added to the wishlist");
@@ -86,6 +87,7 @@ function Product() {
 					name: eachComic.name,
 					price: eachComic.price,
 					image: eachComic.image,
+					slug: eachComic.slug,
 				})
 			);
 		} else {
@@ -226,7 +228,9 @@ function Product() {
 									<BsArrowRight className="inline-block" />
 								</div>
 								<div>
-									<ReviewComponent id={id} />
+									{eachComic && (
+										<ReviewComponent id={eachComic._id} />
+									)}
 								</div>
 							</div>
 

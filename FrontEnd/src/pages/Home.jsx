@@ -34,7 +34,7 @@ function Home() {
 					name="featured"
 					fetchedBooks={fetchedBooks}
 					render={(x) => {
-						if (x.ratingsAverage >= 4.2) {
+						if (x.ratingsAverage >= 4.1) {
 							return (
 								<EachCard
 									key={x._id}
@@ -43,6 +43,7 @@ function Home() {
 									price={x.price}
 									id={x._id}
 									name={x.name}
+									slug={x.slug}
 								/>
 							);
 						}
@@ -61,6 +62,27 @@ function Home() {
 									price={x.price}
 									id={x._id}
 									name={x.name}
+									slug={x.slug}
+								/>
+							);
+						}
+					}}
+				/>
+
+				<Featured
+					name="most popular"
+					fetchedBooks={fetchedBooks}
+					render={(x) => {
+						if (x.publishedAt.split("-")[0] < 2022) {
+							return (
+								<EachCard
+									key={x._id}
+									Image={x.image}
+									ratingsAverage={x.ratingsAverage}
+									price={x.price}
+									id={x._id}
+									name={x.name}
+									slug={x.slug}
 								/>
 							);
 						}
@@ -68,14 +90,10 @@ function Home() {
 				/>
 			</div>
 
-			<div className="mt-8 text-white">
-				Check Out
+			<div className="mt-8 text-white text-center ">
 				<NavLink to="/categories">
-					<span className="font-bold text-wierdBlue border-orange border px-4 py-2 mx-4 hover:text-white hover:bg-wierdBlue hover:border-wierdBlue uppercase cursor-pointer hover:border">
-						All Categores
-					</span>
+					<button className="">Hello</button>
 				</NavLink>
-				to explore more ...
 			</div>
 		</div>
 	);

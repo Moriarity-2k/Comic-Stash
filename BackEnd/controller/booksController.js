@@ -13,17 +13,31 @@ exports.getAllBooks = catchAsync(async function (req, res, next) {
 });
 
 exports.createBook = catchAsync(async function (req, res, next) {
-	const comic = await Books.create(req.body);
+
+    console.log(req.body.image)
+	// const comic = await Books.create(req.body);
 	res.status(200).send({
 		status: "success",
-		data: {
-			comic,
-		},
+		// data: {
+		// 	comic,
+		// },
 	});
 });
 
 exports.getOneBook = catchAsync(async function (req, res, next) {
-	const comic = await Books.findById(req.params.id);
+	const param = req.params.id;
+
+	const obj = {};
+
+	console.log(+param[0]);
+
+	if (+param[0]) {
+		obj.id = param;
+	} else obj.slug = param;
+
+	console.log(obj);
+
+	const comic = await Books.findOne(obj);
 	res.status(200).json({
 		status: "success",
 		data: {
@@ -41,7 +55,7 @@ exports.deleteOneBook = catchAsync(async function (req, res, next) {
 });
 
 exports.updateOneBook = catchAsync(async function (req, res, next) {
-	const book = await findByIdAndUpdate(req.params.id, req.body, {
+	const book = await Books.findByIdAndUpdate(req.params.id, req.body, {
 		runValidators: true,
 		new: true,
 	});

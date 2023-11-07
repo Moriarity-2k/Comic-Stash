@@ -6,8 +6,9 @@ import PropTypes from "prop-types";
 import Tilt from "react-parallax-tilt";
 
 const EachCard = ({ Image, ratingsAverage, price, id, name, slug }) => {
+    console.log(Image)
 	return (
-		<NavLink to={`/books/${id}`}>
+		<NavLink to={`/books/${slug}`}>
 			<Tilt>
 				<div className="my-6 mx-1 shadow-[#ff4d5a] shadow-inner w-max  p-2 md:px-4">
 					<ImageLoad src={Image} />

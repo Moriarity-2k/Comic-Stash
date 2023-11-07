@@ -180,7 +180,7 @@ function Header() {
 								Contact Us
 							</StyledLi>
 						</NavLink> */}
-						{User.name ? (
+						{User && User.name ? (
 							<Dropdown user={User} />
 						) : (
 							<NavLink to="/login">

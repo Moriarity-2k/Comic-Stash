@@ -31,7 +31,6 @@ app.use("/api/v1/books", BooksRouter);
 app.use("/api/v1/users", UserRouter);
 app.use("/api/v1/reviews", ReviewRouter);
 app.use("/api/v1/bookings", BookingsRouter);
-// app.use("/api/v1/bookings", BookingsRouter);
 
 app.use((err, req, res, next) => {
 	console.log(err);
@@ -42,5 +41,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-
-// export default app;

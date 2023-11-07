@@ -6,8 +6,8 @@ import { IMAGE_PUBLIC_TOKEN, PROJECT_URL } from "../ui/AppLayout";
 // import toast from "react-hot-toast";
 // import { useState } from "react";
 
-const Image =
-	"https://firebasestorage.googleapis.com/v0/b/comicstash-99a6f.appspot.com/o/bookCovers%2F1_SuperiorIronMan_Img.jpeg?alt=media&token=e2eb3365-d2a9-4689-af13-d7e96448271e";
+// const Image =
+// 	"https://firebasestorage.googleapis.com/v0/b/comicstash-99a6f.appspot.com/o/bookCovers%2F1_SuperiorIronMan_Img.jpeg?alt=media&token=e2eb3365-d2a9-4689-af13-d7e96448271e";
 
 const WishList = () => {
 	const items = useSelector((x) => x.wishReducer.items);
@@ -51,6 +51,7 @@ const WishList = () => {
 							<div></div>
 						</div>
 						{items.map((x, i) => {
+                            console.log(x)
 							return (
 								// <div key={i} className="border-white p-3 border flex items-center gap-8 ">
 								<div
@@ -61,7 +62,7 @@ const WishList = () => {
 										src={`${PROJECT_URL}${x.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
 										className="max-h-16"
 									/>
-									<NavLink to={`/product/${x.id}`}>
+									<NavLink to={`/books/${x.id}`}>
 										<h1>{x.name}</h1>
 									</NavLink>
 									<div>{x.price} </div>

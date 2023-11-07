@@ -1,6 +1,12 @@
 const util = require("util");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const multer = require("multer");
+const path = require("path");
+const { getStorage, ref, uploadBytesResumable } = require("firebase/storage");
+const { signInWithEmailAndPassword } = require("firebase/auth");
+
+const { auth } = require("../utils/fireBase");
 
 const User = require("../Models/userModel");
 const catchAsync = require("../utils/catchAsync");
@@ -35,8 +41,64 @@ exports.signUp = catchAsync(async function (req, res, next) {
 		data: {
 			name: user.name,
 			email: user.email,
+			role: user.role,
 		},
 	});
+});
+
+const upload = multer({
+	storage: multer.memoryStorage(),
+	fileFilter: (req, file, cb) => {
+		const fileTypes = /jpeg|jpg|png|gif/;
+		// Check ext
+		const extName = fileTypes.test(
+			path.extname(file.originalname).toLowerCase()
+		);
+		// Check mime
+		const mimeType = fileTypes.test(file.mimetype);
+
+		if (mimeType && extName) {
+			return cb(null, true);
+		}
+		cb("Error: Images Only !!!");
+	},
+});
+
+exports.uploadImage = upload.single("imageComic");
+
+async function uploadImageFire(file) {
+	const storageFB = getStorage();
+
+	await signInWithEmailAndPassword(
+		auth,
+		process.env.FIREBASE_EMAIL,
+		process.env.FIREBASE_PASS
+	);
+
+	const fileName = `images/${file.name}${Date.now()}`;
+
+	const storageRef = ref(storageFB, fileName);
+	const metadata = {
+		contentType: file.type,
+	};
+
+	await uploadBytesResumable(storageRef, file.buffer, metadata);
+	return fileName;
+}
+exports.resizeComicImages = catchAsync(async (req, res, next) => {
+	const name = req.file.originalname.split(".")[0].split("/").join("-");
+
+
+	const file = {
+		type: req.file.mimetype,
+		buffer: req.file.buffer,
+		name: name,
+	};
+
+	const buildImage = await uploadImageFire(file);
+
+	console.log(buildImage);
+	next();
 });
 
 exports.login = catchAsync(async function (req, res, next) {
@@ -52,7 +114,7 @@ exports.login = catchAsync(async function (req, res, next) {
 
 	const token = createToken(user.id);
 
-    // res.cookie('hello' , 'hello');
+	// res.cookie('hello' , 'hello');
 	res.cookie("jwt", token, {
 		// maxAge: 60 * 24 * 60 * 60 * 1000,
 		expires: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
@@ -67,6 +129,7 @@ exports.login = catchAsync(async function (req, res, next) {
 			user: {
 				name: user.name,
 				email: user.email,
+				role: user.role,
 			},
 		},
 	});
@@ -74,7 +137,10 @@ exports.login = catchAsync(async function (req, res, next) {
 
 exports.restricTo = function (...roles) {
 	return catchAsync(async function (req, res, next) {
-		const x = roles.find(req.user.role);
+		const x = roles.find((y) => {
+			console.log(y, req.user.role);
+			return y === req.user.role;
+		});
 		if (!x)
 			return next(
 				"You are not authorized to do so. Only admins and authors have access to this route! 🚫"

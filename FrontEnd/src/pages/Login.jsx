@@ -45,7 +45,11 @@ function Login() {
 		onSuccess: (data) => {
 			toast.success("Logged In Succesfully");
 			dispatch(
-				user_login({ name: data.user.name, email: data.user.email })
+				user_login({
+					name: data.user.name,
+					email: data.user.email,
+					role: data.user.role,
+				})
 			);
 			if (searchParams.get("redirect")) {
 				return navigate("/address");
@@ -64,7 +68,7 @@ function Login() {
 	}
 
 	return (
-		<div className="w-[90%] text-white lg:max-w-[80%] mt-24 xl:max-w-[68%] font-poppins mx-auto">
+		<div className="w-[90%] text-white lg:max-w-[80%] mt-36 md:mt-44 lg:mt-52 xl:max-w-[68%] font-poppins mx-auto">
 			<div className=" md:flex divide-lightGrey">
 				{/* note: Main Left Div */}
 				<div className="space-y-6 basis-2/4 md:border-lightGrey md:border-r-2 md:pr-[4%] lg:pr-[8%]">
@@ -95,6 +99,7 @@ function Login() {
 								name="email"
 								register={register}
 								holder="test@email.com"
+								type="email"
 							/>
 							<div className=" text-red-500 text-xs">
 								{formErrors.email && formErrors.email.message}
@@ -139,7 +144,6 @@ function Login() {
 
 				{/* note: Main right */}
 				<div className=" space-y-8 mt-24 md:mt-0 md:pl-[8%] basis-2/4">
-                    
 					{/* note: Two lines */}
 					<div className="text-center space-y-4 mb-8">
 						<h2
@@ -164,7 +168,13 @@ function Login() {
 						<AccountRet />
 						<AccountHeart />
 					</div>
-					<NavLink to="/createaccount?redirect=address">
+					<NavLink
+						to={`${
+							searchParams.get("redirect")
+								? "/createaccount?redirect=address"
+								: "/createaccount"
+						}`}
+					>
 						<button className="mt-6 uppercase rounded-sm bg-wierdBlue font-semibold py-2 px-[10px] text-sm text-white w-full">
 							create account
 						</button>

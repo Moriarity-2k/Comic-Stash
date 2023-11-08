@@ -6,7 +6,7 @@ import EachCard from "../ui/EachCard";
 import styled from "styled-components";
 import Ripple from "../ui/Ripple";
 
-const Button = styled.button`
+export const Button = styled.button`
 	overflow: hidden;
 	position: relative;
 	cursor: pointer;
@@ -105,7 +105,7 @@ const Categores = () => {
 				<div className="flex items-center flex-wrap gap-6 md:gap-10 ml-8 md:ml-4 last:justify-start justify-evenly">
 					{data &&
 						data.map((x) => {
-                            console.log(x.genre)
+							console.log(x.genre);
 							if (x.genre === cat) {
 								return (
 									<EachCard

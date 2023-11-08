@@ -21,7 +21,7 @@ import AddressFill from "./pages/AddressFill";
 
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
-import AdminBook from "./pages/AdminBook";
+import AdminView from "./pages/AdminView";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -42,8 +42,8 @@ const router = createBrowserRouter([
 				errorElement: <Error />,
 			},
 			{
-				path: "/new-book",
-				element: <AdminBook />,
+				path: "/admin-control",
+				element: <AdminView />,
 				errorElement: <Error />,
 			},
 

@@ -1,6 +1,8 @@
-const Books = require("../Models/booksModel");
+const admin = require("../utils/fireBase");
 
 const catchAsync = require("../utils/catchAsync");
+
+const Books = require("../Models/booksModel");
 
 exports.getAllBooks = catchAsync(async function (req, res, next) {
 	const comics = await Books.find();
@@ -13,11 +15,27 @@ exports.getAllBooks = catchAsync(async function (req, res, next) {
 });
 
 exports.createBook = catchAsync(async function (req, res, next) {
+	const bucket = admin.storage().bucket("comicstash-99a6f.appspot.com/");
 
-    console.log(req.body.image)
+	// Get the image file.
+	const file = bucket.file("bookCovers/1_SuperiorIronMan_Img.jpeg");
+
+	const data = await file.download();
+	// // Download the image file.
+	// file.download().then((imageData) => {
+	// 	// Display the image.
+	// 	console.log(imageData);
+	// 	// const image = document.createElement('img');
+	// 	// image.src = imageData;
+	// 	// document.body.appendChild(image);
+	// });
+
+	console.log(decodedBuffer);
+
 	// const comic = await Books.create(req.body);
 	res.status(200).send({
 		status: "success",
+		image: data,
 		// data: {
 		// 	comic,
 		// },

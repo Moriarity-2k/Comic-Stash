@@ -3,9 +3,8 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import Label from "../ui/Label";
-import Input from "../ui/Input";
-import { useRef } from "react";
+import Label from "../../ui/Label";
+import Input from "../../ui/Input";
 
 async function sendBookData(data) {
 	const formData = new FormData();
@@ -20,9 +19,7 @@ async function sendBookData(data) {
 		method: "post",
 		data: formData,
 		headers: {
-			// "Content-Type": "application/json",
-			'Content-Type': 'multipart/form-data'
-			// "Content-Type": "application/x-www-form-urlencoded",
+			"Content-Type": "multipart/form-data",
 		},
 		withCredentials: "include",
 	});
@@ -30,7 +27,7 @@ async function sendBookData(data) {
 	return x.data.data;
 }
 
-const AdminBook = () => {
+const AdminBook = ({ cancelButton }) => {
 	const {
 		register,
 		handleSubmit,
@@ -57,10 +54,12 @@ const AdminBook = () => {
 	};
 
 	return (
-		<div className="w-[95%] md:w-[80%] text-[#ffffffc2] font-mono lg:max-w-[60%] mt-24 md:mt-28 lg:mt-40 xl:max-w-[50%] mx-auto">
-			<div className=" font-bold uppercase my-8 text-lg lg:text-3xl tracking-wider">
+		// < className="w-[95%] md:w-[80%] text-[#ffffffc2] font-mono lg:max-w-[60%] mt-24 md:mt-28 lg:mt-40 xl:max-w-[50%] mx-auto">
+		<>
+			{/* </> */}
+			{/* <div className=" font-bold uppercase my-8 text-lg lg:text-3xl tracking-wider">
 				Publish New Comic
-			</div>
+			</div> */}
 			<form
 				className="space-y-6"
 				onSubmit={handleSubmit(handleCreateBook)}
@@ -184,6 +183,7 @@ const AdminBook = () => {
 						type="submit"
 						onClick={(e) => {
 							e.preventDefault();
+							cancelButton();
 						}}
 						className="w-full uppercase border border-wierdBlue font-semibold py-2 px-[10px] rounded-sm text-lg text-white"
 					>
@@ -191,7 +191,7 @@ const AdminBook = () => {
 					</button>
 				</div>
 			</form>
-		</div>
+		</>
 	);
 };
 

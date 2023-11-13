@@ -10,12 +10,7 @@ export const Button = styled.button`
 	overflow: hidden;
 	position: relative;
 	cursor: pointer;
-	// top: 200px;
 	padding: 5px 30px;
-	// color: #fff;
-	// font-size: 20px;
-	// border-radius: 20px;
-	// border: 1px solid #fff;
 	text-align: center;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 `;
@@ -32,7 +27,6 @@ const Categores = () => {
 	});
 
 	return (
-		// <div className="text-white font-mono  mt-12 w-[93%] mx-auto">
 		<div className="w-[98%] mt-44 text-white font-mono pt-4 pb-4 xl:max-w-[80%] md:mx-auto">
 			<div className="flex ml-2 gap-2 md:gap-4 text-xs md:text-lg lg:text-xl lg:gap-8">
 				<Button
@@ -101,7 +95,6 @@ const Categores = () => {
 						{cat}
 					</h1>
 				</div>
-				{/* <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4"> */}
 				<div className="flex items-center flex-wrap gap-6 md:gap-10 ml-8 md:ml-4 last:justify-start justify-evenly">
 					{data &&
 						data.map((x) => {

@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteForever } from "react-icons/md";
 import Modal from "./Modal";
 import { Button } from "../pages/Categores";
 import Ripple from "./Ripple";
@@ -45,18 +42,6 @@ function EachUser({ user, handleDelete }) {
 						/>
 					</Modal.Window>
 				</Modal>
-
-				{/* {viewConfirm && (
-					<button
-						onClick={() => {
-							setViewConfirm((x) => !x);
-							handleDelete(user._id);
-						}}
-						className="text-sm px-3 text-black font-bold uppercase bg-red-300"
-					>
-						Confirm
-					</button>
-				)} */}
 			</div>
 		</div>
 	);

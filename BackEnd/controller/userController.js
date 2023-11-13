@@ -1,10 +1,14 @@
 const User = require("../Models/userModel");
+const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
 exports.updateMe = catchAsync(async function (req, res, next) {
 	if (req.body.password) {
 		return next(
-			"Use api/v1/users/updatePassword route to update your password"
+			new AppError(
+				"Use api/v1/users/updatePassword route to update your password",
+				400
+			)
 		);
 	}
 
@@ -41,17 +45,22 @@ exports.updatePassword = catchAsync(async function (req, res, next) {
 	const user = await User.findById(req.user.id).select("+password");
 
 	if (updatePassOpt.role) {
-		return next("Cannot update your role by yourSelf 🚫");
+		return next(
+			new AppError("Cannot update your role by yourSelf 🚫", 403)
+		);
 	}
 
 	if (updatePassOpt.name || updatePassOpt.email) {
 		return next(
-			"Please use update user details to update name and email 🚫"
+			new AppError(
+				"Please use update user details to update name and email 🚫",
+				400
+			)
 		);
 	}
 
 	if (req.body.password !== req.body.passwordConfirm) {
-		return next("Your new Passwords do not match 🚫");
+		return next(new AppError("Your new Passwords do not match 🚫", 403));
 	}
 
 	const ok = await user.comparePasswords(
@@ -60,7 +69,7 @@ exports.updatePassword = catchAsync(async function (req, res, next) {
 	);
 
 	if (!ok) {
-		return next("Please, Enter the correct password");
+		return next(new AppError("Please, Enter the correct password", 403));
 	}
 
 	user.password = req.body.password;
@@ -74,7 +83,7 @@ exports.updatePassword = catchAsync(async function (req, res, next) {
 
 exports.getAllUsers = catchAsync(async function (req, res, next) {
 	const users = await User.find().select("-passwordChangedAt -__v");
-	// console.log("user is ", x.passwordChangedAt.toISOString());
+
 	res.status(200).json({
 		status: "success",
 		data: { users },
@@ -92,7 +101,7 @@ exports.getUser = catchAsync(async function (req, res, next) {
 });
 
 exports.deleteUser = catchAsync(async function (req, res, next) {
-	const user = await User.findByIdAndDelete(req.params.id);
+	await User.findByIdAndDelete(req.params.id);
 
 	res.status(204).json({
 		message: "success",

@@ -10,8 +10,6 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { set_address } from "../store";
 
-import fs from "fs";
-
 const AdFill = () => {
 	const navigate = useNavigate();
 
@@ -22,7 +20,10 @@ const AdFill = () => {
 	const addressLocal = useSelector((x) => x.addressReducer);
 
 	const makePayment = async () => {
-		const stripe = await loadStripe(publicKey);
+		const variance = await axios.get(
+			"http://localhost:3000/api/v1/pk_variance"
+		);
+		const stripe = await loadStripe(variance.data.variance);
 
 		const session = await axios(
 			"http://localhost:3000/api/v1/bookings/create-checkout-session",
@@ -42,10 +43,8 @@ const AdFill = () => {
 			sessionId: session.data.id,
 		});
 
-		console.log(result);
-
 		if (result.error) {
-			console.log(result.error);
+			toast.error(result.error);
 		}
 	};
 
@@ -63,9 +62,6 @@ const AdFill = () => {
 	} = useForm({
 		defaultValues: addressLocal,
 	});
-
-	const publicKey =
-		"pk_test_51O23dTSGveSoqZaHiieuVTGhhiqW5cEzZof5621a7C6NGHIRtJJq3PqUpgCCozEXT7bn7ECFhi7ZMNvooGk9EDJM00OBlv61AM";
 
 	function singUpHandler(data, e) {
 		e.preventDefault();

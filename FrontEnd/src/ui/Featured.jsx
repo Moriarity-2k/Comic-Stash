@@ -19,7 +19,6 @@ function Featured({ fetchedBooks, name, render }) {
 					</button>
 				</NavLink>
 			</div>
-			{/* <div className="scroll-hidden mt-4 overflow-x-scroll flex items-start"> */}
 			<div className="scroll-hidden relative mt-4 overflow-x-scroll flex gap-4 md:gap-6 lg:gap-10 items-start">
 				{fetchedBooks && fetchedBooks.map(render)}
 			</div>

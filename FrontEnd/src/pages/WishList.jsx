@@ -3,25 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { add_cart, remove_item } from "../store";
 import toast from "react-hot-toast";
 import { IMAGE_PUBLIC_TOKEN, PROJECT_URL } from "../ui/AppLayout";
-// import toast from "react-hot-toast";
-// import { useState } from "react";
-
-// const Image =
-// 	"https://firebasestorage.googleapis.com/v0/b/comicstash-99a6f.appspot.com/o/bookCovers%2F1_SuperiorIronMan_Img.jpeg?alt=media&token=e2eb3365-d2a9-4689-af13-d7e96448271e";
+import ImageComponent from "../ui/ImageComponent";
 
 const WishList = () => {
 	const items = useSelector((x) => x.wishReducer.items);
 	const dispatch = useDispatch();
 
-	// console.log(items);
-
 	const navigate = useNavigate();
-	//
-	// 	const handleRemove = (id) => {
-	// 		console.log(id);
-	// 		dispatch(remove_item(id));
-	// 		toast.success("Item removed from the wishlist");
-	// 	};
 
 	return (
 		<div className="w-[95%] md:w-[80%] text-white font-mono lg:max-w-[60%] mt-44 xl:max-w-[50%] mx-auto">
@@ -51,16 +39,14 @@ const WishList = () => {
 							<div></div>
 						</div>
 						{items.map((x, i) => {
-                            console.log(x)
 							return (
-								// <div key={i} className="border-white p-3 border flex items-center gap-8 ">
 								<div
 									key={i}
 									className="border-[#ffffff94] p-3 border-b last:border-0 grid grid-cols-[0.4fr_1.8fr_0.8fr_0.8fr_0.8fr] md:grid-cols-[0.6fr_1.6fr_0.5fr_0.5fr_0.5fr] lg:md:grid-cols-[0.6fr_1.4fr_0.6fr_0.6fr_0.6fr] gap-[0.8rem] md:gap-[1.2rem] lg:gap-[1.6rem] items-center "
 								>
-									<img
-										src={`${PROJECT_URL}${x.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
-										className="max-h-16"
+									<ImageComponent
+										mainImageSrc={`${PROJECT_URL}${x.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
+										altText={x.name}
 									/>
 									<NavLink to={`/books/${x.id}`}>
 										<h1>{x.name}</h1>
@@ -82,6 +68,7 @@ const WishList = () => {
 													quantity: 1,
 													name: x.name,
 													price: x.price,
+													image: x.image,
 												})
 											);
 											dispatch(remove_item(x.id));

@@ -12,7 +12,6 @@ import GiftWrap from "../ui/GiftWrap";
 import AccountVan from "../ui/AccountVan";
 import AccInstall from "../ui/AccInstall";
 import AccountRet from "../ui/AccountRet";
-import CenterOverlay from "../ui/CenterOverlay";
 import Spinner from "../ui/Spinner";
 import ReviewComponent from "../ui/ReviewComponent";
 import { IMAGE_PUBLIC_TOKEN, PROJECT_URL } from "../ui/AppLayout";
@@ -20,10 +19,11 @@ import { IMAGE_PUBLIC_TOKEN, PROJECT_URL } from "../ui/AppLayout";
 import { BsPlus } from "react-icons/bs";
 import { BiMinus } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
+import ImageComponent from "../ui/ImageComponent";
+import Modal from "../ui/Modal";
 
 function Product() {
 	const [wishNum, setWishNum] = useState(0);
-	const [aboutOpen, setAboutOpen] = useState(false);
 	const [alreadyPresent, setAlreadyPresent] = useState(false);
 
 	const { id } = useParams();
@@ -72,10 +72,6 @@ function Product() {
 		toast.success("Item added to the wishlist");
 	}
 
-	function setValAb() {
-		setAboutOpen((x) => !x);
-	}
-
 	function btnHandler(num) {
 		setWishNum((wishNum) => Math.max(0, wishNum + num));
 
@@ -103,14 +99,15 @@ function Product() {
 			<div className="w-[90%] font-poppins text-white mx-auto mt-44 lg:max-w-[80%] xl:max-w-[68%]">
 				{/* note: Img and author */}
 				<div className="flex flex-col md:flex-row items-start gap-[10%]">
-					<img
-						src={`${PROJECT_URL}${eachComic.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
-						className="border mb-4 h-[20%] w-[20%] shadow-orange shadow-lg "
-						alt="SpiderMan"
+					<ImageComponent
+						mainImageSrc={`${PROJECT_URL}${eachComic.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
+						width="auto"
+						height="auto"
+						altText={eachComic.name}
 					/>
 
-					<div className=" flex flex-col lg:w-[60%] xl:w-[60%]">
-						<h1 className="capitalize border-lightGrey border-b pb-4 font-bold tracking-wide leading-loose text-[2rem]">
+					<div className=" flex md:basis-3/4 lg:basis-3/5 mt-8 md:mt-0 flex-col lg:w-[60%] xl:w-[60%]">
+						<h1 className="capitalize border-lightGrey border-b pb-4 font-bold tracking-wide leading-loose  text-[1.2rem] sm:text-[1.8rem] lg:text-[2rem]">
 							{eachComic.name}
 						</h1>
 						<div className="mt-8 mb-3 space-y-4">
@@ -196,24 +193,41 @@ function Product() {
 
 							{/* note: About */}
 							<div className="my-8 space-y-4 ">
-								<div className="font-bold text-lg flex items-center gap-4">
-									<span className="inline-block">
-										About this Ebook
-									</span>
-									<button onClick={setValAb}>
-										<BsArrowRight className="inline-block" />
-									</button>
-								</div>
-								<div className="text-greyPrimary">
-									{eachComic.description.slice(0, 200)} ...
-								</div>
-								{aboutOpen && (
-									<CenterOverlay
-										title="About this Book"
-										About={eachComic.description}
-										valueFn={setValAb}
-									/>
-								)}
+								<Modal>
+									<Modal.Open
+										opens={`about-${eachComic.name}`}
+									>
+										<div>
+											<div className="font-bold cursor-pointer text-lg flex items-center gap-4">
+												<span className="inline-block">
+													About this Ebook
+												</span>
+												<button onClick={setValAb}>
+													<BsArrowRight className="inline-block" />
+												</button>
+											</div>
+											<article className="text-greyPrimary text-sm mt-4">
+												{eachComic.description.slice(
+													0,
+													200
+												)}{" "}
+												...
+											</article>
+										</div>
+									</Modal.Open>
+									<Modal.Window
+										name={`about-${eachComic.name}`}
+									>
+										<div>
+											<h1 className=" text-lg font-bold capitalize">
+												About this book
+											</h1>
+											<article className="ml-4 mt-2 text-sm leading-loose">
+												{eachComic.description}
+											</article>
+										</div>
+									</Modal.Window>
+								</Modal>
 							</div>
 
 							{/* note: genres */}

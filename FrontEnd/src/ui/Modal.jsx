@@ -19,7 +19,6 @@ const StyledModal = styled.div`
 	background-color: var(--color-grey-0);
 	border-radius: var(--border-radius-lg);
 	box-shadow: var(--shadow-lg);
-	// padding: 3.2rem 4rem;
 	transition: all 0.5s;
 `;
 
@@ -77,6 +76,7 @@ function Modal({ children }) {
 
 function Open({ children, opens: opensWindowname }) {
 	const { open } = useContext(ModalContext);
+	console.log(opensWindowname);
 
 	return cloneElement(children, { onClick: () => open(opensWindowname) });
 }
@@ -84,6 +84,8 @@ function Open({ children, opens: opensWindowname }) {
 function Window({ children, name }) {
 	const { openName, close } = useContext(ModalContext);
 	// const ref = useOutsideClick(close);
+
+    console.log(name)
 
 	const ref = useRef();
 

@@ -31,7 +31,6 @@ const EachReview = ({x, i}) => {
 							);
 						}
 					)}
-					{/* x.rating((y,i) => (<FaStar />)) */}
 				</div>
 			</div>
 			<div className=" text-greySecondary">{x.review}</div>

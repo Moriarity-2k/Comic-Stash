@@ -1,4 +1,4 @@
-const dotenv = require('dotenv')
+const dotenv = require("dotenv");
 
 process.on("uncaughtException", (err) => {
 	console.log("Uncaught Expression, Shutting down !! 💥");
@@ -7,11 +7,11 @@ process.on("uncaughtException", (err) => {
 });
 
 dotenv.config({
-    path: "./config.env",
+	path: "./config.env",
 });
 
-const mongoose = require('mongoose');
-const app = require('./app')
+const mongoose = require("mongoose");
+const app = require("./app");
 
 const DB = process.env.DATABASE.replace(
 	"<password>",
@@ -28,5 +28,8 @@ const server = app.listen(PORT, () => console.log(`server started on ${PORT}`));
 process.on("unhandledRejection", (err) => {
 	console.log("Uncaught Rejection, Shutting down !! 💥");
 	// console.log(err.name, err.message);
+	if (process.env.NODE_ENV === "development") {
+		console.log(err.message);
+	}
 	server.close(() => process.emit(1));
 });

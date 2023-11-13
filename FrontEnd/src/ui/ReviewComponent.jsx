@@ -10,7 +10,7 @@ import SpinnerMini from "./SpinnerMini";
 import EachReview from "./EachReview";
 
 const ReviewComponent = ({ id }) => {
-	const [star, setStar] = useState(3);
+	const [star, setStar] = useState(0);
 	const [ownData, setOwnData] = useState(false);
 
 	const User = useSelector((state) => state.userReducer);
@@ -81,10 +81,8 @@ const ReviewComponent = ({ id }) => {
 		},
 	});
 
-	// console.log(user);
 
 	const postReviewHandler = (data) => {
-		// console.log("pst review", data);
 		if (!User.name) {
 			return toast("Please login to post a review");
 		}
@@ -127,7 +125,7 @@ const ReviewComponent = ({ id }) => {
 								formErrors.reviewText.message}
 						</div>
 					</div>
-					<button className="text-xs md:text-sm border-wierdBlue px-2 py-1 md:px-4 md:py-2 hover:text-lightGrey border hover:border- hover:bg-wierdBlue hover:text-white rounded-sm">
+					<button className="text-xs md:text-sm bg-wierdBlue px-2 py-1 md:px-4 md:py-2 hover:bg-[#0065a8] font-semibold hover:text-white rounded-sm">
 						Post Review
 					</button>
 				</form>

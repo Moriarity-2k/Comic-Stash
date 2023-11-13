@@ -33,7 +33,7 @@ function CreateAccountF() {
 		return x.data.data;
 	};
 
-	const { mutate, isError, status } = useMutation({
+	const { mutate, isError, isPending } = useMutation({
 		mutationKey: ["signup"],
 		mutationFn: (data) => singUp(data),
 		onSuccess: (data) => {
@@ -137,7 +137,7 @@ function CreateAccountF() {
 						<div className="flex gap-12">
 							<button
 								type="submit"
-								// disabled={status === "pending"}
+								disabled={isPending}
 								className="w-full uppercase bg-orange font-semibold py-2 px-[10px] rounded-sm text-lg text-white"
 							>
 								create account

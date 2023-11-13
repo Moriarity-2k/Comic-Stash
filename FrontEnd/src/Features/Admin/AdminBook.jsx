@@ -8,50 +8,39 @@ import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
 
 async function sendBookData(data) {
-	console.log(data);
+	const formData = new FormData();
 
-	// 	const formData = new FormData();
-	//
-	// 	Object.keys(data).forEach((x) => {
-	// 		x.image === null;
-	// 		if (x === "image") {
-	// 			formData.append("imageComic", data[x]);
-	// 		} else formData.append(x, data[x]);
-	// 	});
+	Object.keys(data).forEach((x) => {
+		formData.append(x, data[x]);
+	});
 
 	const x = await axios("http://localhost:3000/api/v1/books/", {
 		method: "post",
 		// data: formData,
 		data: data,
 		headers: {
-			// "Content-Type": "multipart/form-data",
-			"Content-Type": "application/json",
+			"Content-Type": "multipart/form-data",
 		},
 		withCredentials: "include",
 	});
+
 	console.log(x.data);
 	return x.data.data;
 }
 
 async function updateBookData(data, id) {
-	console.log(data);
+	const formData = new FormData();
 
-	// 	const formData = new FormData();
-	//
-	// 	Object.keys(data).forEach((x) => {
-	// 		x.image === null;
-	// 		if (x === "image") {
-	// 			formData.append("imageComic", data[x]);
-	// 		} else formData.append(x, data[x]);
-	// 	});
+	Object.keys(data).forEach((x) => {
+		formData.append(x, data[x]);
+	});
 
 	const x = await axios(`http://localhost:3000/api/v1/books/${id}`, {
 		method: "patch",
-		// data: formData,
-		data: data,
+		data: formData,
 		headers: {
-			// "Content-Type": "multipart/form-data",
-			"Content-Type": "application/json",
+			"Content-Type": "multipart/form-data",
+			// "Content-Type": "application/json",
 		},
 		withCredentials: "include",
 	});
@@ -77,11 +66,11 @@ const AdminBook = ({
 	const { mutate, reset, isPending } = useMutation({
 		mutationKey: ["postBookData"],
 		mutationFn: sendBookData,
-		onSuccess: (data) => {
+		onSuccess: () => {
 			toast.success("Product Creation Successful");
 			client.invalidateQueries({ queryKey: "All-Books" });
 			cancelButton();
-			// reset();
+			reset();
 		},
 		onError: (error) => {
 			toast.error(error.message);
@@ -90,12 +79,12 @@ const AdminBook = ({
 
 	const {
 		mutate: updateBook,
-		reset: updateReset,
+		// reset: updateReset,
 		isPending: updationPending,
 	} = useMutation({
 		mutationKey: ["updateBookData"],
 		mutationFn: updateBookData,
-		onSuccess: (data) => {
+		onSuccess: () => {
 			toast.success("Update succesful");
 			client.invalidateQueries({ queryKey: "All-Books" });
 			cancelButton();
@@ -106,33 +95,16 @@ const AdminBook = ({
 		},
 	});
 
-	const toBase64 = (file) =>
-		new Promise((resolve, reject) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onload = () => resolve(reader.result);
-			reader.onerror = (error) => reject(error);
-		});
-
 	const handleCreateBook = async (data, e) => {
 		e.preventDefault();
-		// if (!isEditing && data.image) {
 		data.image = data.image[0];
-		// data.image = await toBase64(data.image[0]);
-		// }
-
 		isEditing ? updateBook(data, defaultFormValues._id) : mutate(data);
 	};
 
 	if (isPending || updationPending) return <Spinner />;
 
 	return (
-		// < className="w-[95%] md:w-[80%] text-[#ffffffc2] font-mono lg:max-w-[60%] mt-24 md:mt-28 lg:mt-40 xl:max-w-[50%] mx-auto">
 		<>
-			{/* </> */}
-			{/* <div className=" font-bold uppercase my-8 text-lg lg:text-3xl tracking-wider">
-				Publish New Comic
-			</div> */}
 			<form
 				className="space-y-6"
 				onSubmit={handleSubmit(handleCreateBook)}
@@ -248,7 +220,7 @@ const AdminBook = ({
 					{isEditing ? (
 						<button
 							type="submit"
-							// disabled={isLoading}
+							disabled={updationPending}
 							className="w-full text-sm uppercase bg-orange font-semibold py-2 px-[10px] rounded-sm lg:text-lg text-slate-200"
 						>
 							Update Comic
@@ -256,7 +228,7 @@ const AdminBook = ({
 					) : (
 						<button
 							type="submit"
-							// disabled={isLoading}
+							disabled={isPending}
 							className="w-full text-sm uppercase bg-orange font-semibold py-2 px-[10px] rounded-sm lg:text-lg text-slate-200"
 						>
 							Create Product

@@ -5,8 +5,7 @@ import PropTypes from "prop-types";
 
 import Tilt from "react-parallax-tilt";
 
-const EachCard = ({ Image, ratingsAverage, price, id, name, slug }) => {
-    console.log(Image)
+const EachCard = ({ Image, ratingsAverage, price, name, slug }) => {
 	return (
 		<NavLink to={`/books/${slug}`}>
 			<Tilt>
@@ -14,7 +13,7 @@ const EachCard = ({ Image, ratingsAverage, price, id, name, slug }) => {
 					<ImageLoad src={Image} />
 
 					<div className="text-white mb-2">
-						<h1 className="text-sm md:text-base lg:text-lg font-bold uppercase font-mono tracking-tight">
+						<h1 className="text-sm mt-4 md:text-base lg:text-lg font-bold uppercase font-mono tracking-tight">
 							{name.split(" ")[0]} {name.split(" ")[1]}
 						</h1>
 						<div className="text-xs flex mt-2 items-center justify-between">

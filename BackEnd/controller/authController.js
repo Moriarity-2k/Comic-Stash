@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const multer = require("multer");
 const path = require("path");
+const sharp = require("sharp");
 const { getStorage, ref, uploadBytesResumable } = require("firebase/storage");
 const { signInWithEmailAndPassword } = require("firebase/auth");
 
@@ -11,6 +12,7 @@ const { auth } = require("../utils/fireBase");
 const User = require("../Models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const Email = require("../utils/email");
+const AppError = require("../utils/appError");
 
 const createToken = function (id) {
 	return jwt.sign({ id }, process.env.SECRET_STRING, {
@@ -64,7 +66,9 @@ const upload = multer({
 	},
 });
 
-exports.uploadImage = upload.single("imageCover");
+exports.uploadImage = upload.single("image");
+
+// exports.uploadImage = multer({ dest: "public/Images/" }).single("image");
 
 async function uploadImageFire(file) {
 	const storageFB = getStorage();
@@ -75,7 +79,7 @@ async function uploadImageFire(file) {
 		process.env.FIREBASE_PASS
 	);
 
-	const fileName = `images/${file.name}${Date.now()}`;
+	const fileName = `bookCovers/${file.name}${Date.now()}`;
 
 	const storageRef = ref(storageFB, fileName);
 	const metadata = {
@@ -86,18 +90,23 @@ async function uploadImageFire(file) {
 	return fileName;
 }
 exports.resizeComicImages = catchAsync(async (req, res, next) => {
-	console.log(req.file);
-	// 	const name = req.file.originalname.split(".")[0].split("/").join("-");
-	//
-	// 	const file = {
-	// 		type: req.file.mimetype,
-	// 		buffer: req.file.buffer,
-	// 		name: name,
-	// 	};
-	//
-	// 	const buildImage = await uploadImageFire(file);
-	//
-	// 	console.log(buildImage);
+	const name = req.file.originalname.split(".")[0].split("/").join("-");
+	const img = await sharp(req.file.buffer)
+		.resize(300, 450)
+		.toFormat("jpeg")
+		.jpeg({ quality: 90 })
+		.toBuffer();
+
+	const file = {
+		type: req.file.mimetype,
+		buffer: img,
+		name: name,
+	};
+
+	const buildImage = await uploadImageFire(file);
+
+	req.body.image = buildImage.split("/")[1];
+
 	next();
 });
 
@@ -110,7 +119,7 @@ exports.login = catchAsync(async function (req, res, next) {
 		!user ||
 		!(await user.comparePasswords(req.body.password, user.password))
 	)
-		return next("Email or Password is incorrect");
+		return next(new AppError("Email or Password is incorrect", 401));
 
 	const token = createToken(user.id);
 
@@ -137,13 +146,13 @@ exports.login = catchAsync(async function (req, res, next) {
 
 exports.restricTo = function (...roles) {
 	return catchAsync(async function (req, res, next) {
-		const x = roles.find((y) => {
-			console.log(y, req.user.role);
-			return y === req.user.role;
-		});
+		const x = roles.find((y) => y === req.user.role);
 		if (!x)
 			return next(
-				"You are not authorized to do so. Only admins and authors have access to this route! 🚫"
+				new AppError(
+					"You are not authorized to do so. Only admins and authors have access to this route! 🚫",
+					403
+				)
 			);
 		next();
 	});
@@ -161,7 +170,8 @@ exports.protect = catchAsync(async function (req, res, next) {
 		tokenHash = req.cookies.jwt;
 	}
 
-	if (!tokenHash) return next("Please login to get access");
+	if (!tokenHash)
+		return next(new AppError("Please login to get access", 400));
 
 	// promisifying to catch the error
 	const { id, iat } = await util.promisify(jwt.verify)(
@@ -172,9 +182,8 @@ exports.protect = catchAsync(async function (req, res, next) {
 	const user = await User.findById(id);
 
 	// valid user or not
-	if (!user || user.passwordChangedAt < iat) {
-		return next("Please relogin to get access");
-	}
+	if (!user || user.passwordChangedAt < iat)
+		return next(new AppError("Please relogin to get access", 400));
 
 	req.user = user;
 	next();
@@ -184,7 +193,12 @@ exports.forgotpassword = catchAsync(async function (req, res, next) {
 	const user = await User.findOne({ email: req.body.email });
 
 	if (!user)
-		return next("Please check your email ! No user found with that email");
+		return next(
+			new AppError(
+				"Please check your email ! No user found with that email",
+				400
+			)
+		);
 
 	// const sec = user.createPasswordResetToken();
 	// await user.save({ validateBeforeSave: false });
@@ -231,7 +245,8 @@ exports.resetPassword = catchAsync(async function (req, res, next) {
 		passwordIsvalidTill: { $gt: Date.now() },
 	});
 
-	if (!user) return next("Try resetting again !!!");
+	if (!user)
+		return next(new AppError("Token Expired , please reset again", 400));
 
 	const token = createToken(user.id);
 

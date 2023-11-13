@@ -15,6 +15,7 @@ import EmptyBlock from "../../ui/EmptyBlock";
 import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import ImageComponent from "../../ui/ImageComponent";
+import { NavLink } from "react-router-dom";
 
 async function handleDelete(id) {
 	const x = await axios.delete(`http://localhost:3000/api/v1/books/${id}`, {
@@ -114,9 +115,14 @@ function AdminComic() {
 								>
 									<ImageComponent
 										mainImageSrc={`${PROJECT_URL}${x.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
-										altText="Nothing just image"
+										altText={x.name}
 									/>
-									<h1 className="">{x.name}</h1>
+									<NavLink
+										to={`/books/${x.slug}`}
+										className=""
+									>
+										{x.name}
+									</NavLink>
 									<div>{x.price} </div>
 									<div className="hover:cursor-pointer gap-4 flex items-center">
 										<Modal>
@@ -167,7 +173,7 @@ function AdminComic() {
 					</span>{" "}
 					to{" "}
 					<span className="font-bold text-slate-300">
-						{page * 10}
+						{Math.min(page * 10, fetchedBooks.length)}
 					</span>{" "}
 					of{" "}
 					<span className="font-bold text-slate-300">

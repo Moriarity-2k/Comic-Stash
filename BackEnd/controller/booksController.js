@@ -1,8 +1,6 @@
-const admin = require("../utils/fireBase");
-
 const catchAsync = require("../utils/catchAsync");
-
 const Books = require("../Models/booksModel");
+const AppError = require("../utils/appError");
 
 exports.getAllBooks = catchAsync(async function (req, res, next) {
 	const comics = await Books.find();
@@ -15,33 +13,12 @@ exports.getAllBooks = catchAsync(async function (req, res, next) {
 });
 
 exports.createBook = catchAsync(async function (req, res, next) {
-	// const bucket = admin.storage().bucket("comicstash-99a6f.appspot.com/");
-
-	// Get the image file.
-	// const file = bucket.file("bookCovers/1_SuperiorIronMan_Img.jpeg");
-
-	// const data = await file.download();
-	// // Download the image file.
-	// file.download().then((imageData) => {
-	// 	// Display the image.
-	// 	console.log(imageData);
-	// 	// const image = document.createElement('img');
-	// 	// image.src = imageData;
-	// 	// document.body.appendChild(image);
-	// });
-
-	// console.log(decodedBuffer);
-
-	console.log(req.body);
-
-	// const comic = await Books.create(req.body);
-	res.status(200).send({
+	const comic = await Books.create(req.body);
+	res.status(201).send({
 		status: "success",
-        
-		// image: data,
-		// data: {
-		// 	comic,
-		// },
+		data: {
+			comic,
+		},
 	});
 });
 
@@ -50,13 +27,9 @@ exports.getOneBook = catchAsync(async function (req, res, next) {
 
 	const obj = {};
 
-	console.log(+param[0]);
-
 	if (+param[0]) {
 		obj.id = param;
 	} else obj.slug = param;
-
-	console.log(obj);
 
 	const comic = await Books.findOne(obj);
 	res.status(200).json({
@@ -68,9 +41,8 @@ exports.getOneBook = catchAsync(async function (req, res, next) {
 });
 
 exports.deleteOneBook = catchAsync(async function (req, res, next) {
-	await Books.deleteOneById({ id: req.prams.id });
+	await Books.findByIdAndDelete(req.params.id);
 
-	console.log(req.params.id);
 	res.status(200).json({
 		status: "success",
 	});
@@ -83,7 +55,7 @@ exports.updateOneBook = catchAsync(async function (req, res, next) {
 	});
 
 	if (!book) {
-		return next(new Error("No Comic found with that Id"));
+		return next(new AppError("No Comic found with that Id", 400));
 	}
 
 	res.status(200).send({

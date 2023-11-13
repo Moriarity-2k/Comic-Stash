@@ -1,9 +1,7 @@
 // EMPTY STAR
-
 const stars = 5;
 
 export default function Star({ star, setStar }) {
-	// const [star, setStar] = useState(0);
 	const mai = function (num) {
 		setStar(num);
 	};
@@ -17,11 +15,12 @@ export default function Star({ star, setStar }) {
 	);
 }
 
-function StarContainer({ id, fun, bright, mai }) {
+function StarContainer({ id, bright, mai }) {
 	return (
 		<div
 			style={{ height: "1.3rem", width: "1.3rem" }}
 			onClick={() => mai(id)}
+            className="cursor-pointer"
 		>
 			{id <= bright ? (
 				<svg

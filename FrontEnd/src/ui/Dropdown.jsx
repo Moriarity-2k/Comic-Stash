@@ -2,7 +2,6 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 function Dropdown({ user }) {
-	// console.log(user);
 	const [layer, setLayer] = useState(false);
 
 	return (
@@ -60,7 +59,7 @@ function Dropdown({ user }) {
 							tabIndex="-1"
 							id="menu-item-0"
 						>
-						    Admin View
+							Admin View
 						</NavLink>
 					)}
 					<NavLink
@@ -72,26 +71,6 @@ function Dropdown({ user }) {
 					>
 						Contact Us
 					</NavLink>
-					{/* <a
-						href="#"
-						className="text-gray-700 block px-4 py-2 text-sm"
-						role="menuitem"
-						tabIndex="-1"
-						id="menu-item-2"
-					>
-						License
-					</a> */}
-					{/* <form method="POST" action="#" role="none">
-						<button
-							type="submit"
-							className="text-gray-700 block w-full px-4 py-2 text-left text-sm"
-							role="menuitem"
-							tabIndex="-1"
-							id="menu-item-3"
-						>
-							Sign out
-						</button>
-					</form> */}
 				</div>
 			</div>
 		</div>

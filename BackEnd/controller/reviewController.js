@@ -1,9 +1,10 @@
 const Review = require("../Models/reviewsModel");
+const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllReviews = catchAsync(async function (req, res, next) {
 	if (!req.params.bookId) {
-		return next("You need to specify a book Id");
+		return next(new AppError("You need to specify a book Id", 400));
 	}
 
 	const comic = req.body.comic || req.params.bookId;
@@ -15,8 +16,6 @@ exports.getAllReviews = catchAsync(async function (req, res, next) {
 		})
 		.select("rating review postedAt user");
 
-	// const reviews = await Review.find({ comic }).select('rating review postedAt');
-
 	res.status(200).json({
 		status: "success",
 		data: {
@@ -27,7 +26,7 @@ exports.getAllReviews = catchAsync(async function (req, res, next) {
 
 exports.createReview = catchAsync(async function (req, res, next) {
 	if (!req.body.comic && !req.params.bookId) {
-		return next("You need to specify a book Id -");
+		return next(new AppError("You need to specify a book Id", 400));
 	}
 
 	if (!req.body.user) {
@@ -56,7 +55,7 @@ exports.createReview = catchAsync(async function (req, res, next) {
 
 exports.deleteReview = catchAsync(async function (req, res, next) {
 	if (!req.body.comic && !req.params.bookId) {
-		return next("You need to specify a book Id");
+		return next(new AppError("You need to specify a book Id", 400));
 	}
 
 	if (!req.body.user) {
@@ -73,10 +72,7 @@ exports.deleteReview = catchAsync(async function (req, res, next) {
 	});
 
 	if (!x) {
-		return res.status(400).json({
-			status: "fail",
-			message: "No review Found wth that Id",
-		});
+		next(new AppError("No reviews found with that Id", 403));
 	}
 
 	res.status(202).json({

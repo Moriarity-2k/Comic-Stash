@@ -4,6 +4,7 @@ import { add_cart, remove_cart } from "../store";
 import { BiMinus } from "react-icons/bi";
 import { BsPlus } from "react-icons/bs";
 import { IMAGE_PUBLIC_TOKEN, PROJECT_URL } from "../ui/AppLayout";
+import ImageComponent from "../ui/ImageComponent";
 
 const CartP = () => {
 	const items = useSelector((x) => {
@@ -45,21 +46,16 @@ const CartP = () => {
 							shopping Cart
 						</div>
 						<div className="text-xs md:text-sm lg:text-lg p-1 md:p-6 mt-8 md:mt-16 md:px-4 md:py-4 border-[#42535e81] border">
-							{/* <div className="border-[#ffffff2c] uppercase text-orange p-1 md:p-2 lg:p-3 border-b last:border-0 grid grid-cols-[0.4fr_1.8fr_0.8fr_0.8fr] md:grid-cols-[0.2fr_1.6fr_0.5fr_0.8fr] lg:md:grid-cols-[0.3fr_1.4fr_0.6fr_0.6fr] gap-[0.8rem] md:gap-[1.2rem] lg:gap-[1.6rem] items-center justify-start">
-								<div></div>
-								<div>Name</div>
-								<div>Price &#8377; </div>
-								<div>Quantity</div>
-							</div> */}
+				
 							{items.map((x, i) => {
 								return (
 									<div
 										key={i}
 										className=" p-1 md:p-2 lg:p-3 border-[#42535e81] border-b last:border-0 grid grid-cols-[0.4fr_1.8fr_0.8fr_0.8fr] md:grid-cols-[0.2fr_1.6fr_0.3fr_0.8fr] lg:md:grid-cols-[0.3fr_1.4fr_0.4fr_0.6fr] gap-[0.8rem] md:gap-[1.2rem] lg:gap-[1.6rem] items-center justify-start"
 									>
-										<img
-											src={`${PROJECT_URL}${x.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
-											className="max-h-16"
+										<ImageComponent
+											mainImageSrc={`${PROJECT_URL}${x.image}?alt=media&token=${IMAGE_PUBLIC_TOKEN}`}
+											altText={x.name}
 										/>
 										<NavLink to={`/books/${x.id}`}>
 											<h1 className="text-xs md:text-base">

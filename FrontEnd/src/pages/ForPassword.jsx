@@ -19,7 +19,7 @@ function ForPassword() {
 
 	const navigate = useNavigate();
 
-	const { mutate, isError, status } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationKey: ["signup"],
 		mutationFn: (data) => sendEmail(data),
 		onSuccess: () => {
@@ -29,13 +29,12 @@ function ForPassword() {
 			navigate("/login");
 		},
 		onError: (error) => {
-			toast.error("Internal Server Error . Try again later");
+			toast.error(error.message);
 		},
 	});
 	if (status === "pending") return <SpinnerMini />;
 	else
 		return (
-			// <div className="w-[90%] lg:max-w-[80%] mt-24 xl:max-w-[68%] font-poppins mx-auto">
 			<div className="w-[90%] text-white lg:max-w-[60%] mt-24 xl:max-w-[45%] font-poppins mx-auto">
 				<div className="space-y-6 basis-2/4 text-white md:border-lightGrey md:border-r-2 lg:pr-[8%]">
 					{/* note: first two lines div */}
@@ -68,7 +67,7 @@ function ForPassword() {
 								type="submit"
 								className="w-full uppercase bg-orange font-semibold py-2 px-[10px] text-lg text-white"
 							>
-								send
+								{isPending ? <SpinnerMini /> : "send"}
 							</button>
 							<button
 								type="submit"

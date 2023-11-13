@@ -5,6 +5,7 @@ const express = require("express");
 const { default: helmet } = require("helmet");
 const cors = require("cors");
 
+const globalErrorHandler = require("./controller/errorController");
 const BooksRouter = require("./Routes/booksRoutes");
 const UserRouter = require("./Routes/userRoutes");
 const ReviewRouter = require("./Routes/reviewRoutes");
@@ -35,13 +36,12 @@ app.use("/api/v1/books", BooksRouter);
 app.use("/api/v1/users", UserRouter);
 app.use("/api/v1/reviews", ReviewRouter);
 app.use("/api/v1/bookings", BookingsRouter);
-
-app.use((err, req, res, next) => {
-	console.log(err);
-	res.status(400).send({
-		status: "fail",
-		message: "creads are wrong uu ",
+app.get("/api/v1/pk_variance", (req, res, next) => {
+	res.status(200).json({
+		variance: process.env.STRIPE_PUBLIC,
 	});
 });
+
+app.use(globalErrorHandler);
 
 module.exports = app;

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-const ImageComponent = ({ mainImageSrc, placeholderSrc = "", altText }) => {
+const ImageComponent = ({
+	mainImageSrc,
+	placeholderSrc = "",
+	altText,
+	width = "3rem",
+	height = "4rem",
+}) => {
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
 
 	const handleImageLoad = () => {
@@ -8,10 +14,10 @@ const ImageComponent = ({ mainImageSrc, placeholderSrc = "", altText }) => {
 	};
 
 	return (
-		<div style={{ position: "relative", width: "3rem", height: "4rem" }}>
+		<div style={{ position: "relative", width, height }}>
 			{!isImageLoaded && (
 				<img
-					src={placeholderSrc || 'Images/HeroHolder.jpg'}
+					src={placeholderSrc || "Images/HeroHolder.jpg"}
 					alt="Placeholder"
 					style={{
 						position: "absolute",

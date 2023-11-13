@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const Brevo = require("@getbrevo/brevo");
 
 class Email {
 	constructor(message, to = {}) {
@@ -8,13 +9,15 @@ class Email {
 
 	async sendMail() {
 		if (process.env.NODE_ENV === "production") {
-			// Sendgrid
-			return nodemailer
+			// Sendgrid -> not working
+
+			await nodemailer
 				.createTransport({
-					service: "SendGrid",
+					host: "smtp-relay.sendinblue.com",
+					port: 587,
 					auth: {
-						user: process.env.SENDGRID_USERNAME,
-						pass: process.env.SENDGRID_PASSWORD,
+						user: process.env.BREVO_EMAIL,
+						pass: process.env.BREVO_KEY,
 					},
 				})
 				.sendMail({
@@ -23,23 +26,22 @@ class Email {
 					subject: this._message,
 					text: `You password reset url is ${this._to.url}`,
 				});
-		}
-
-		await nodemailer
-			.createTransport({
-				host: process.env.EMAIL_HOST,
-				port: process.env.EMAIL_PASS,
-				auth: {
-					user: process.env.EMAIL_USERNAME,
-					pass: process.env.EMAIL_PASS,
-				},
-			})
-			.sendMail({
-				from: "<hello@comicstash.com>",
-				to: this._to.to,
-				subject: this._message,
-				text: `You password reset url is ${this._to.url}`,
-			});
+		} else
+			await nodemailer
+				.createTransport({
+					host: process.env.EMAIL_HOST,
+					port: process.env.EMAIL_PASS,
+					auth: {
+						user: process.env.EMAIL_USERNAME,
+						pass: process.env.EMAIL_PASS,
+					},
+				})
+				.sendMail({
+					from: "<hello@comicstash.com>",
+					to: this._to.to,
+					subject: this._message,
+					text: `You password reset url is ${this._to.url}`,
+				});
 	}
 }
 

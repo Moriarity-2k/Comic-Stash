@@ -60,11 +60,11 @@ const upload = multer({
 		if (mimeType && extName) {
 			return cb(null, true);
 		}
-		cb("Error: Images Only !!!");
+		cb(new Error("Error: Images Only !!!"), false);
 	},
 });
 
-exports.uploadImage = upload.single("imageComic");
+exports.uploadImage = upload.single("imageCover");
 
 async function uploadImageFire(file) {
 	const storageFB = getStorage();
@@ -86,18 +86,18 @@ async function uploadImageFire(file) {
 	return fileName;
 }
 exports.resizeComicImages = catchAsync(async (req, res, next) => {
-	const name = req.file.originalname.split(".")[0].split("/").join("-");
-
-
-	const file = {
-		type: req.file.mimetype,
-		buffer: req.file.buffer,
-		name: name,
-	};
-
-	const buildImage = await uploadImageFire(file);
-
-	console.log(buildImage);
+	console.log(req.file);
+	// 	const name = req.file.originalname.split(".")[0].split("/").join("-");
+	//
+	// 	const file = {
+	// 		type: req.file.mimetype,
+	// 		buffer: req.file.buffer,
+	// 		name: name,
+	// 	};
+	//
+	// 	const buildImage = await uploadImageFire(file);
+	//
+	// 	console.log(buildImage);
 	next();
 });
 

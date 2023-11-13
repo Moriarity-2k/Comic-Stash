@@ -25,8 +25,8 @@ router
 	.post(
 		protect,
 		restricTo("admin", "author"),
-		// uploadImage,
-		// resizeComicImages,
+		uploadImage,
+		resizeComicImages,
 		createBook
 	);
 

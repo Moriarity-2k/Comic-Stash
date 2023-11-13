@@ -4,6 +4,7 @@ import { Button } from "./Categores";
 import Ripple from "../ui/Ripple";
 import AdminUser from "../Features/Admin/AdminUser";
 import AdminComic from "../Features/Admin/AdminComic";
+import AdminBookings from "../Features/Admin/AdminBookings";
 
 const AdminView = () => {
 	const [view, setView] = useState("users");
@@ -49,10 +50,28 @@ const AdminView = () => {
 							<Ripple />
 						</Button>
 					</div>
+					<div
+						style={{
+							color: `${view === "bookings" ? "orchid" : ""}`,
+						}}
+						onClick={() => setView("bookings")}
+					>
+						<Button
+							style={{
+								backgroundColor: `${
+									view === "bookings" ? "#ffffff21" : ""
+								}`,
+							}}
+						>
+							Bookings
+							<Ripple />
+						</Button>
+					</div>{" "}
 				</div>
 				<div className="basis-3/4 mt-8 lg:mt-0">
 					{view === "users" && <AdminUser />}
 					{view === "comics" && <AdminComic />}
+					{view === "bookings" && <AdminBookings />}
 				</div>
 			</div>
 		</div>

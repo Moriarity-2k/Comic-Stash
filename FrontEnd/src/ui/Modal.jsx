@@ -1,4 +1,11 @@
-import { cloneElement, createContext, useContext, useState } from "react";
+import {
+	cloneElement,
+	createContext,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 
@@ -78,17 +85,32 @@ function Window({ children, name }) {
 	const { openName, close } = useContext(ModalContext);
 	// const ref = useOutsideClick(close);
 
-	console.log("first", children);
+	const ref = useRef();
+
+	useEffect(
+		function () {
+			function handleClick(e) {
+				if (ref.current && ref.current === e.target) {
+					close();
+				}
+			}
+			document.addEventListener("click", handleClick, true);
+
+			return () =>
+				document.removeEventListener("click", handleClick, true);
+		},
+		[close]
+	);
 
 	if (name !== openName) return null;
 
 	return createPortal(
-		<Overlay>
+		<Overlay ref={ref}>
 			<StyledModal className="md:w-[70%] lg:w-[60%] px-12 py-10">
 				<ButtonCros onClick={close}>
 					<HiXMark />
 				</ButtonCros>
-				<div >{cloneElement(children, { cancelButton: close })}</div>
+				<div>{cloneElement(children, { cancelButton: close })}</div>
 			</StyledModal>
 		</Overlay>,
 		document.body

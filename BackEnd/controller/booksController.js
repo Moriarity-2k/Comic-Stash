@@ -15,12 +15,12 @@ exports.getAllBooks = catchAsync(async function (req, res, next) {
 });
 
 exports.createBook = catchAsync(async function (req, res, next) {
-	const bucket = admin.storage().bucket("comicstash-99a6f.appspot.com/");
+	// const bucket = admin.storage().bucket("comicstash-99a6f.appspot.com/");
 
 	// Get the image file.
-	const file = bucket.file("bookCovers/1_SuperiorIronMan_Img.jpeg");
+	// const file = bucket.file("bookCovers/1_SuperiorIronMan_Img.jpeg");
 
-	const data = await file.download();
+	// const data = await file.download();
 	// // Download the image file.
 	// file.download().then((imageData) => {
 	// 	// Display the image.
@@ -30,12 +30,15 @@ exports.createBook = catchAsync(async function (req, res, next) {
 	// 	// document.body.appendChild(image);
 	// });
 
-	console.log(decodedBuffer);
+	// console.log(decodedBuffer);
+
+	console.log(req.body);
 
 	// const comic = await Books.create(req.body);
 	res.status(200).send({
 		status: "success",
-		image: data,
+        
+		// image: data,
 		// data: {
 		// 	comic,
 		// },
@@ -67,6 +70,7 @@ exports.getOneBook = catchAsync(async function (req, res, next) {
 exports.deleteOneBook = catchAsync(async function (req, res, next) {
 	await Books.deleteOneById({ id: req.prams.id });
 
+	console.log(req.params.id);
 	res.status(200).json({
 		status: "success",
 	});

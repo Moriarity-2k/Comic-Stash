@@ -32,6 +32,8 @@ app.use(
 	})
 );
 
+// console.log(__dirname);
+
 app.use("/api/v1/books", BooksRouter);
 app.use("/api/v1/users", UserRouter);
 app.use("/api/v1/reviews", ReviewRouter);

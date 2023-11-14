@@ -32,6 +32,7 @@ function Product() {
 		data: eachComic,
 		error: comicError,
 		status,
+		isLoading,
 	} = useQuery({
 		queryKey: ["book"],
 		queryFn: async () => {
@@ -93,7 +94,7 @@ function Product() {
 
 	if (comicError) return comicError;
 
-	if (status === "pending") return <Spinner />;
+	if (status === "pending" || isLoading) return <Spinner />;
 	else
 		return (
 			<div className="w-[90%] font-poppins text-white mx-auto mt-44 lg:max-w-[80%] xl:max-w-[68%]">

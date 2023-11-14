@@ -1,13 +1,12 @@
 const nodemailer = require("nodemailer");
-const Brevo = require("@getbrevo/brevo");
 
 class Email {
 	constructor(message, to = {}) {
 		this._to = to;
-		this._message = message;
+		this._subject = message;
 	}
 
-	async sendMail() {
+	async sendMail(message = "") {
 		if (process.env.NODE_ENV === "production") {
 			// Sendgrid -> not working
 
@@ -23,8 +22,9 @@ class Email {
 				.sendMail({
 					from: "<hello@comicstash.com>",
 					to: this._to.to,
-					subject: this._message,
-					text: `You password reset url is ${this._to.url}`,
+					subject: this._subject,
+					text:
+						message || `You password reset url is ${this._to.url}`,
 				});
 		} else
 			await nodemailer
@@ -39,8 +39,9 @@ class Email {
 				.sendMail({
 					from: "<hello@comicstash.com>",
 					to: this._to.to,
-					subject: this._message,
-					text: `You password reset url is ${this._to.url}`,
+					subject: this._subject,
+					text:
+						message || `You password reset url is ${this._to.url}`,
 				});
 	}
 }

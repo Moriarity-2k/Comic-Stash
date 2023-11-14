@@ -22,6 +22,7 @@ import AddressFill from "./pages/AddressFill";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
 import AdminView from "./pages/AdminView";
+import Contact from "./Features/Contact Form/Contact";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -95,6 +96,11 @@ const router = createBrowserRouter([
 			{
 				path: "/cart",
 				element: <CartP />,
+				errorElement: <Error />,
+			},
+			{
+				path: "/contactUs",
+				element: <Contact />,
 				errorElement: <Error />,
 			},
 		],

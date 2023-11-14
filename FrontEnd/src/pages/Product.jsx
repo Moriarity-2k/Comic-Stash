@@ -198,13 +198,11 @@ function Product() {
 										opens={`about-${eachComic.name}`}
 									>
 										<div>
-											<div className="font-bold cursor-pointer text-lg flex items-center gap-4">
-												<span className="inline-block">
+											<div className="font-bold cursor-pointer text-lg ">
+												<span className="flex items-center gap-4">
 													About this Ebook
-												</span>
-												<button onClick={setValAb}>
 													<BsArrowRight className="inline-block" />
-												</button>
+												</span>
 											</div>
 											<article className="text-greyPrimary text-sm mt-4">
 												{eachComic.description.slice(

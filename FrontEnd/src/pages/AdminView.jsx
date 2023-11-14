@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import { Button } from "./Categores";
 import Ripple from "../ui/Ripple";
-import AdminUser from "../Features/Admin/AdminUser";
-import AdminComic from "../Features/Admin/AdminComic";
-import AdminBookings from "../Features/Admin/AdminBookings";
+import AdminUser from "../Features/Admin/Users/AdminUser";
+import AdminComic from "../Features/Admin/Comics/AdminComic";
+import AdminBookings from "../Features/Admin/Bookings/AdminBookings";
 
 const AdminView = () => {
 	const [view, setView] = useState("users");

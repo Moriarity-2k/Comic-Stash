@@ -1,13 +1,14 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Input from "../ui/Input";
-import Label from "../ui/Label";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import SpinnerMini from "../ui/SpinnerMini";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+
 import { user_login } from "../store";
+import Input from "../ui/Input";
+import Label from "../ui/Label";
+import SpinnerMini from "../ui/SpinnerMini";
 
 function CreateAccountF() {
 	const navigate = useNavigate();

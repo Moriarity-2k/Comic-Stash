@@ -1,4 +1,3 @@
-
 import { push as Menu } from "react-burger-menu";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -183,7 +182,7 @@ function Header() {
 								Sign In
 							</NavLink>
 						)}
-						{User?.role === "admin" && (
+						{(User?.role === "admin" || User.role === "owner") && (
 							<NavLink to="/admin-control">Admin View</NavLink>
 						)}
 					</Menu>

@@ -34,7 +34,7 @@ router
 router
 	.route("/:id")
 	.get(getOneBook)
-	.patch(protect, restricTo("author", "admin"), updateOneBook)
-	.delete(protect, restricTo("admin", "author"), deleteOneBook);
+	.patch(protect, restricTo("author", "admin", "owner"), updateOneBook)
+	.delete(protect, restricTo("admin", "author", "owner"), deleteOneBook);
 
 module.exports = router;

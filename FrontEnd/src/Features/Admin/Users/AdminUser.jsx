@@ -2,15 +2,15 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import SpinnerMini from "../../ui/SpinnerMini";
-import EachUser from "../../ui/EachUser";
+import EachUser from "./Users";
+import Spinner from "../../../ui/Spinner";
 
 async function deleteUser(id) {
 	const x = await axios.delete(`http://localhost:3000/api/v1/users/${id}`, {
 		withCredentials: "include",
 	});
 
-	console.log(x.data.data);
+	console.log(x.data);
 
 	return x.data.data;
 }
@@ -23,7 +23,7 @@ function AdminUser() {
 				method: "get",
 				withCredentials: "include",
 			});
-			console.log(x.data.data);
+
 			return x.data.data.users;
 		},
 	});
@@ -36,6 +36,7 @@ function AdminUser() {
 		onSuccess: (data) => {
 			toast.success("user deleted succesfully");
 			client.invalidateQueries({ queryKey: "user-delete" });
+			window.location.reload();
 		},
 		onError: (error) => {
 			console.log(error);
@@ -44,7 +45,7 @@ function AdminUser() {
 	});
 
 	if (error) return toast.error(error.message);
-	else if (isLoading) return <SpinnerMini />;
+	else if (isLoading) return <Spinner />;
 	else
 		return (
 			<div className=" text-sm text-purple-100 border-[#ffffff59] border">

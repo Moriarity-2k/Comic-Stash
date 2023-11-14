@@ -29,12 +29,9 @@ router.use(protect);
 router.route("/updateMe").patch(updateMe);
 router.route("/updatePassword").patch(updatePassword);
 
-router.use(restricTo("admin"));
+router.use(restricTo("admin", "owner"));
 router.route("/").get(getAllUsers);
 
 router.route("/:id").delete(deleteUser);
 
-// router.route('/:id').get().patch().delete();
-
 module.exports = router;
-// model , controller , router

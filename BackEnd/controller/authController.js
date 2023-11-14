@@ -30,10 +30,7 @@ exports.signUp = catchAsync(async function (req, res, next) {
 
 	const token = createToken(user._id);
 	res.cookie("jwt", token, {
-		// expires: , // specify Date
 		maxAge: 60 * 24 * 60 * 60 * 1000,
-		// domain: "http://127.0.0.1:5173/",
-		// sameSite: 'none',
 		httpOnly: true,
 	});
 	res.status(200).json({
@@ -68,7 +65,6 @@ const upload = multer({
 
 exports.uploadImage = upload.single("image");
 
-// exports.uploadImage = multer({ dest: "public/Images/" }).single("image");
 
 async function uploadImageFire(file) {
 	const storageFB = getStorage();
@@ -125,10 +121,7 @@ exports.login = catchAsync(async function (req, res, next) {
 
 	// res.cookie('hello' , 'hello');
 	res.cookie("jwt", token, {
-		// maxAge: 60 * 24 * 60 * 60 * 1000,
 		expires: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
-		// domain: "http://127.0.0.1:5173/",
-		// httpOnly: true,
 	});
 
 	res.status(200).send({
@@ -200,9 +193,6 @@ exports.forgotpassword = catchAsync(async function (req, res, next) {
 			)
 		);
 
-	// const sec = user.createPasswordResetToken();
-	// await user.save({ validateBeforeSave: false });
-
 	const sec = crypto.randomBytes(32).toString("hex");
 	const resetToken = crypto.createHash("sha256").update(sec).digest("hex");
 
@@ -268,5 +258,18 @@ exports.resetPassword = catchAsync(async function (req, res, next) {
 	});
 });
 
-// updateOne, create, update, updaeMany, replaceOne, replaceMany -> uses save
-// findOneAndUPdate -> query middleware
+// Contact Us
+
+exports.contactUs = catchAsync(async (req, res, next) => {
+	const { name, email, message } = req.body;
+
+	try {
+		await new Email("From CS contact form", {
+			to: process.env.BREVO_EMAIL,
+		}).sendMail(`From name: ${name}  email: ${email} message: ${message}`);
+	} catch (err) {
+		next(err);
+	}
+
+	res.status(200).send("hello");
+});

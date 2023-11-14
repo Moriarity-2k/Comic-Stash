@@ -50,7 +50,7 @@ function Dropdown({ user }) {
 					>
 						My profile
 					</NavLink>
-					{user.role === "admin" && (
+					{(user?.role === "admin" || user.role === "owner") && (
 						<NavLink
 							to="/admin-control"
 							href="#"
@@ -63,6 +63,7 @@ function Dropdown({ user }) {
 						</NavLink>
 					)}
 					<NavLink
+                        to='/contactUs'
 						href="#"
 						className="text-gray-700 block px-4 py-2 text-sm"
 						role="menuitem"

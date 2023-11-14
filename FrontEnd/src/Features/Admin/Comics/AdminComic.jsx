@@ -1,20 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button } from "../../pages/Categores";
-import Modal from "../../ui/Modal";
-import Ripple from "../../ui/Ripple";
+import { Button } from "../../../pages/Categores";
+import Modal from "../../../ui/Modal";
+import Ripple from "../../../ui/Ripple";
 import AdminBook from "./AdminBook";
-import SpinnerMini from "../../ui/SpinnerMini";
+import SpinnerMini from "../../../ui/SpinnerMini";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 import { FaIndianRupeeSign } from "react-icons/fa6";
-import { IMAGE_PUBLIC_TOKEN, PROJECT_URL } from "../../ui/AppLayout";
+import { IMAGE_PUBLIC_TOKEN, PROJECT_URL } from "../../../ui/AppLayout";
 import { CiEdit } from "react-icons/ci";
-import Spinner from "../../ui/Spinner";
-import EmptyBlock from "../../ui/EmptyBlock";
+import Spinner from "../../../ui/Spinner";
+import EmptyBlock from "../../../ui/EmptyBlock";
 import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import ImageComponent from "../../ui/ImageComponent";
+import ImageComponent from "../../../ui/ImageComponent";
 import { NavLink } from "react-router-dom";
 
 async function handleDelete(id) {

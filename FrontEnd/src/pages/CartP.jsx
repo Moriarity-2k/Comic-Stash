@@ -111,7 +111,7 @@ const CartP = () => {
 								{items.reduce(
 									(acc, x) => acc + x.quantity * x.price,
 									0
-								)}
+								).toFixed(2)}
 							</span>
 						</div>
 						<button

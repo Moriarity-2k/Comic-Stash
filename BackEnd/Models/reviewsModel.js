@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Books = require("./booksModel");
-const catchAsync = require("../utils/catchAsync");
 
 const reviewSchema = new mongoose.Schema(
 	{
@@ -38,7 +37,7 @@ reviewSchema.index({ comic: 1, user: 1 }, { unique: 1 });
 
 reviewSchema.pre("save", async function (next) {
 	const book = await Books.findById(this.comic);
-	console.log("In the pre rev schema");
+    
 	if (book) {
 		let rating = book.ratingsAverage * (book.numRatings || 1);
 		rating += this.rating;

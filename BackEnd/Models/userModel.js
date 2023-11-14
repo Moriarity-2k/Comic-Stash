@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "user",
 			enum: {
-				values: ["user", "admin", "author"],
+				values: ["user", "admin", "author", "owner"],
 				message: "You cannot explicitly choose your role to be admin",
 			},
 		},

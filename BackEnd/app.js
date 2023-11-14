@@ -1,7 +1,8 @@
+const express = require("express");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const cookieParser = require("cookie-parser");
-const express = require("express");
+const rateLimit = require("express-rate-limit");
 const { default: helmet } = require("helmet");
 const cors = require("cors");
 
@@ -15,6 +16,13 @@ const BookingsRouter = require("./Routes/bookingsRoutes");
 // tours , users , reviews , bookings
 
 const app = express();
+
+const limiter = rateLimit({
+	max: 100,
+	windowMs: 60 * 60 * 1000,
+	message: "Too many requests from this IP, please try again in an hour!",
+});
+app.use("/api", limiter);
 
 const corsOptions = {
 	origin: true, //included origin as true

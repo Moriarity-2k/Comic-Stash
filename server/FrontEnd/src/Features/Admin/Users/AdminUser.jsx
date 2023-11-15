@@ -4,9 +4,10 @@ import toast from "react-hot-toast";
 
 import EachUser from "./Users";
 import Spinner from "../../../ui/Spinner";
+import { base } from "../../../App";
 
 async function deleteUser(id) {
-	const x = await axios.delete(`/api/v1/users/${id}`, {
+	const x = await axios.delete(`${base}/api/v1/users/${id}`, {
 		withCredentials: "include",
 	});
 
@@ -19,7 +20,7 @@ function AdminUser() {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["All-users"],
 		queryFn: async () => {
-			const x = await axios("/api/v1/users", {
+			const x = await axios(`${base}/api/v1/users`, {
 				method: "get",
 				withCredentials: "include",
 			});

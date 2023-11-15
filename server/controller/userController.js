@@ -1,3 +1,4 @@
+const Review = require("../Models/reviewsModel");
 const User = require("../Models/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
@@ -101,6 +102,7 @@ exports.getUser = catchAsync(async function (req, res, next) {
 });
 
 exports.deleteUser = catchAsync(async function (req, res, next) {
+	await Review.deleteMany({ user: req.params.id });
 	await User.findByIdAndDelete(req.params.id);
 
 	res.status(204).json({

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import Star from "./Star";
 import SpinnerMini from "./SpinnerMini";
 import EachReview from "./EachReview";
+import { base } from "../App";
 
 const ReviewComponent = ({ id }) => {
 	const [star, setStar] = useState(0);
@@ -24,13 +25,11 @@ const ReviewComponent = ({ id }) => {
 	const {
 		data: reviewData,
 		error: reviewError,
-		status: reviewStatus,
+		isLoading,
 	} = useQuery({
 		queryKey: ["reviewSingle"],
 		queryFn: async () => {
-			const x = await axios(
-				`/api/v1/books/${id}/reviews`
-			);
+			const x = await axios(`${base}/api/v1/books/${id}/reviews`);
 
 			let reviews = x.data.data.reviews;
 			const p = reviews.map((review) => {
@@ -46,25 +45,22 @@ const ReviewComponent = ({ id }) => {
 	});
 
 	async function reviewPosting(data) {
-		const x = await axios(
-			`/api/v1/books/${id}/reviews`,
-			{
-				method: "post",
-				data: {
-					comic: id,
-					review: data.reviewText,
-					rating: star,
-				},
-				headers: {
-					"Content-Type": "application/json",
-				},
-				withCredentials: "include",
-			}
-		);
+		const x = await axios(`${base}/api/v1/books/${id}/reviews`, {
+			method: "post",
+			data: {
+				comic: id,
+				review: data.reviewText,
+				rating: star,
+			},
+			headers: {
+				"Content-Type": "application/json",
+			},
+			withCredentials: "include",
+		});
 		return x.data.data.review;
 	}
 
-	const { mutate, isLoading: loadMutate } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationKey: "new Cabin",
 		mutationFn: (data) => reviewPosting(data),
 		onSuccess: (data) => {
@@ -81,7 +77,6 @@ const ReviewComponent = ({ id }) => {
 		},
 	});
 
-
 	const postReviewHandler = (data) => {
 		if (!User.name) {
 			return toast("Please login to post a review");
@@ -94,12 +89,12 @@ const ReviewComponent = ({ id }) => {
 		mutate(data);
 	};
 
-	if (reviewStatus === "pending" || loadMutate) return <SpinnerMini />;
+	if (isLoading || isPending) return <SpinnerMini />;
 	if (reviewError) {
-		toast("SOrry , unable to fetch reviews . Please try again later");
+        console.log(reviewError)
+		toast("Sorry , unable to fetch reviews . Please try again later");
 	}
 
-	// else if (reviewError || errorMutate) return reviewError || errorMutate;
 	else
 		return (
 			<div className=" space-y-4 text-white">

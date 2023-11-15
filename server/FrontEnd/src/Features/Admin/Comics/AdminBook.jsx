@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import Label from "../../../ui/Label";
 import Input from "../../../ui/Input";
 import Spinner from "../../../ui/Spinner";
+import { base } from "../../../App";
 
 async function sendBookData(data) {
 	const formData = new FormData();
@@ -14,9 +15,10 @@ async function sendBookData(data) {
 		formData.append(x, data[x]);
 	});
 
-	const x = await axios(" /api/v1/books/", {
+	const x = await axios(`${base}/api/v1/books/`, {
 		method: "post",
 		// data: formData,
+        
 		data: data,
 		headers: {
 			"Content-Type": "multipart/form-data",
@@ -35,7 +37,7 @@ async function updateBookData(data, id) {
 		formData.append(x, data[x]);
 	});
 
-	const x = await axios(` /api/v1/books/${id}`, {
+	const x = await axios(`${base}/api/v1/books/${id}`, {
 		method: "patch",
 		data: formData,
 		headers: {

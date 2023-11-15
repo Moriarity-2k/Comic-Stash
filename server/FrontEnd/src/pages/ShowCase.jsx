@@ -4,26 +4,25 @@ import { useQuery } from "@tanstack/react-query";
 import EachCard from "../ui/EachCard";
 import SpinnerMini from "../ui/SpinnerMini";
 import { useParams } from "react-router-dom";
+import { base } from "../App";
 
 const ShowCase = () => {
 	const { showParam } = useParams();
 
-	console.log(showParam);
-
 	const {
 		data: fetchedBooks,
 		error: fetchError,
-		status: fetchStatus,
+		isPending,
 	} = useQuery({
 		queryKey: ["All-books"],
 		queryFn: async () => {
-			const books = await axios("/api/v1/books");
+			const books = await axios(`${base}/api/v1/books`);
 
 			return books.data.data.comics;
 		},
 	});
 
-	if (fetchStatus === "pending") return <SpinnerMini />;
+	if (isPending) return <SpinnerMini />;
 
 	if (fetchError) throw new Error(fetchError.message);
 
@@ -53,7 +52,7 @@ const ShowCase = () => {
 										slug={x.slug}
 									/>
 								);
-                        }
+							}
 							if (
 								showParam === "new-arrivals" &&
 								x.publishedAt.split("-")[0] >= 2022
@@ -70,7 +69,7 @@ const ShowCase = () => {
 									/>
 								);
 							}
-                            if (
+							if (
 								showParam === "most-popular" &&
 								x.publishedAt.split("-")[0] < 2022
 							) {

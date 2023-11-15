@@ -14,9 +14,10 @@ import AccInstall from "../ui/AccInstall";
 import AccStore from "../ui/AccStore";
 import AccountHeart from "../ui/AccountHeart";
 import AccountRet from "../ui/AccountRet";
+import { base } from "../App";
 
 async function loginFn(data) {
-	const x = await axios("/api/v1/users/login", {
+	const x = await axios(`${base}/api/v1/users/login`, {
 		method: "post",
 		data,
 		headers: {

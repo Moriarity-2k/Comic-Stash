@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { set_address } from "../store";
+import { base } from "../App";
 
 const AdFill = () => {
 	const navigate = useNavigate();
@@ -20,13 +21,11 @@ const AdFill = () => {
 	const addressLocal = useSelector((x) => x.addressReducer);
 
 	const makePayment = async () => {
-		const variance = await axios.get(
-			"/api/v1/pk_variance"
-		);
+		const variance = await axios.get(`${base}/api/v1/pk_variance`);
 		const stripe = await loadStripe(variance.data.variance);
 
 		const session = await axios(
-			"/api/v1/bookings/create-checkout-session",
+			`${base}/api/v1/bookings/create-checkout-session`,
 			{
 				method: "post",
 				data: {
@@ -48,7 +47,7 @@ const AdFill = () => {
 		}
 	};
 
-	const { isLoading, mutate } = useMutation({
+	const { isPending, mutate } = useMutation({
 		mutationFn: (address) => makePayment(address),
 		onError: (error) => {
 			toast(error.message);
@@ -128,7 +127,7 @@ const AdFill = () => {
 				<div className="flex gap-12">
 					<button
 						type="submit"
-						disabled={isLoading}
+						disabled={isPending}
 						className="w-full text-sm uppercase bg-orange font-semibold py-2 px-[10px] rounded-sm lg:text-lg text-white"
 					>
 						Proceed to Payment

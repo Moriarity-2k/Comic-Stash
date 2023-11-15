@@ -7,9 +7,10 @@ import axios from "axios";
 import SpinnerMini from "../ui/SpinnerMini";
 import toast from "react-hot-toast";
 import { remove_user, user_login } from "../store";
+import { base } from "../App";
 
 async function updateProfile(data) {
-	const x = await axios("/api/v1/users/updateMe", {
+	const x = await axios(`${base}/api/v1/users/updateMe`, {
 		method: "patch",
 		headers: {
 			"Content-Type": "application/json",
@@ -177,7 +178,7 @@ function UserAccount() {
 					<button
 						onClick={async () => {
 							const x = await axios(
-								"/api/v1/users/logout",
+								`${base}/api/v1/users/logout`,
 								{
 									method: "get",
 									withCredentials: true,

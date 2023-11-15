@@ -16,9 +16,10 @@ import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import ImageComponent from "../../../ui/ImageComponent";
 import { NavLink } from "react-router-dom";
+import { base } from "../../../App";
 
 async function handleDelete(id) {
-	const x = await axios.delete(`/api/v1/books/${id}`, {
+	const x = await axios.delete(`${base}/api/v1/books/${id}`, {
 		withCredentials: "include",
 	});
 
@@ -58,7 +59,7 @@ function AdminComic() {
 	} = useQuery({
 		queryKey: ["All-books"],
 		queryFn: async () => {
-			const books = await axios("/api/v1/books");
+			const books = await axios(`${base}/api/v1/books`);
 			// console.log(books.data);
 			return books.data.data.comics;
 		},

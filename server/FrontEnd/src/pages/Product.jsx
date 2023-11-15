@@ -21,6 +21,7 @@ import { BiMinus } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import ImageComponent from "../ui/ImageComponent";
 import Modal from "../ui/Modal";
+import { base } from "../App";
 
 function Product() {
 	const [wishNum, setWishNum] = useState(0);
@@ -31,12 +32,14 @@ function Product() {
 	const {
 		data: eachComic,
 		error: comicError,
-		status,
 		isLoading,
 	} = useQuery({
 		queryKey: ["book"],
 		queryFn: async () => {
-			const x = await axios(`/api/v1/books/${id}`);
+			const x = await axios(`${base}/api/v1/books/${id}`);
+
+			console.log(x.data.data);
+
 			return x.data.data.comic;
 		},
 	});
@@ -94,7 +97,7 @@ function Product() {
 
 	if (comicError) return comicError;
 
-	if (status === "pending" || isLoading) return <Spinner />;
+	if (isLoading) return <Spinner />;
 	else
 		return (
 			<div className="w-[90%] font-poppins text-white mx-auto mt-44 lg:max-w-[80%] xl:max-w-[68%]">

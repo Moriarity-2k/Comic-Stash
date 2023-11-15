@@ -24,6 +24,9 @@ import Error from "./ui/Error";
 import AdminView from "./pages/AdminView";
 import Contact from "./Features/Contact Form/Contact";
 
+// export const base = "http://localhost:3000";
+export const base = "";
+
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -62,7 +65,7 @@ const router = createBrowserRouter([
 				path: "/books/:id",
 				element: <Product />,
 				errorElement: <Error />,
-			},  
+			},
 			{
 				path: "/login",
 				element: <Login />,

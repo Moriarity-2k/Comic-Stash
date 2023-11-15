@@ -5,6 +5,8 @@ import EachCard from "../ui/EachCard";
 
 import styled from "styled-components";
 import Ripple from "../ui/Ripple";
+import { base } from "../App";
+import Spinner from "../ui/Spinner";
 
 export const Button = styled.button`
 	overflow: hidden;
@@ -18,13 +20,15 @@ export const Button = styled.button`
 const Categores = () => {
 	const [cat, setCat] = useState("action");
 
-	const { error, data, status } = useQuery({
+	const { error, data, isLoading } = useQuery({
 		queryKey: ["All-books"],
 		queryFn: async () => {
-			const x = await axios("/api/v1/books");
+			const x = await axios(`${base}/api/v1/books`);
 			return x.data.data.comics;
 		},
 	});
+
+	if (isLoading) return <Spinner />;
 
 	return (
 		<div className="w-[98%] mt-44 text-white font-mono pt-4 pb-4 xl:max-w-[80%] md:mx-auto">

@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import SpinnerMini from "../../ui/SpinnerMini";
+import { base } from "../../App";
 
 function Contact() {
 	const user = useSelector((state) => state.userReducer);
@@ -16,7 +17,7 @@ function Contact() {
 
 	async function handleContact() {
 		console.log("first");
-		const x = await axios("/api/v1/contactUs", {
+		const x = await axios(`${base}/api/v1/contactUs`, {
 			method: "post",
 			headers: {
 				"Content-Type": "application/json",

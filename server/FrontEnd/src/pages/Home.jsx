@@ -1,14 +1,12 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { NavLink, useNavigation } from "react-router-dom";
 
 import Spinner from "../ui/Spinner";
 import EachCard from "../ui/EachCard";
 import Featured from "../ui/Featured";
+import { base } from "../App";
 
 function Home() {
-	const { state } = useNavigation();
-
 	const {
 		data: fetchedBooks,
 		error: fetchError,
@@ -16,13 +14,11 @@ function Home() {
 	} = useQuery({
 		queryKey: ["All-books"],
 		queryFn: async () => {
-			const books = await axios("/api/v1/books");
-            console.log(books)
+			const books = await axios(`${base}/api/v1/books`);
+			console.log(books);
 			return books.data.data.comics;
 		},
 	});
-
-	if (state === "loading") return <Spinner />;
 
 	if (fetchStatus === "pending") return <Spinner />;
 

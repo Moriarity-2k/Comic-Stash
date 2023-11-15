@@ -11,6 +11,8 @@ const path = require("path");
 const compression = require("compression");
 const hpp = require("hpp");
 
+const morgan = require("morgan");
+
 const globalErrorHandler = require("./controller/errorController");
 const BooksRouter = require("./Routes/booksRoutes");
 const UserRouter = require("./Routes/userRoutes");
@@ -40,16 +42,15 @@ app.post(
 	webhookCheckout
 );
 
-app.use(express.static(path.join(__dirname, "FrontEnd", "dist")));
-app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "FrontEnd", "dist/index.html"));
-});
-
 const corsOptions = {
 	origin: true, //included origin as true
 	credentials: true, //included credentials as true
 };
 app.use(cors(corsOptions));
+
+if (process.env.NODE_ENV === "development") {
+	app.use(morgan("dev"));
+}
 
 app.use(compression());
 app.use(hpp());
@@ -73,6 +74,12 @@ app.get("/api/v1/pk_variance", (req, res, next) => {
 	});
 });
 app.post("/api/v1/contactUs", contactUs);
+
+app.use(express.static(path.join(__dirname, "FrontEnd", "dist")));
+app.get("/*", (req, res, next) => {
+	res.send(path.join(__dirname, "FrontEnd", "dist/index.html"));
+	next();
+});
 
 app.all("*", (req, res, next) => {
 	next(new AppError(`Can't find ${req.url} on this server!`, 404));

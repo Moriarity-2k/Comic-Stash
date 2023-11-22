@@ -24,7 +24,7 @@ router
 	.get(getAllBooks)
 	.post(
 		protect,
-		restricTo("admin", "author"),
+		restricTo("admin", "author", "owner"),
 		uploadImage,
 		resizeComicImages,
 		createBook

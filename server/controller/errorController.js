@@ -46,6 +46,7 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
+
 	// A) API
 	if (req.originalUrl.startsWith("/api")) {
 		// A) Operational, trusted error: send message to client
@@ -86,6 +87,8 @@ const sendErrorProd = (err, req, res) => {
 
 module.exports = (err, req, res, next) => {
 	// console.log(err.stack);
+
+    console.log(err)
 
 	err.statusCode = err.statusCode || 500;
 	err.status = err.status || "error";

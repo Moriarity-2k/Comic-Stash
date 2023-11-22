@@ -17,7 +17,7 @@ const ImageComponent = ({
 		<div style={{ position: "relative", width, height }}>
 			{!isImageLoaded && (
 				<img
-					src="./Images/HeroHolder.jpg"
+					src="/Images/HeroHolder.jpg"
 					alt="Placeholder"
 					style={{
 						position: "absolute",

@@ -4,6 +4,7 @@ const AppError = require("../utils/appError");
 
 exports.getAllBooks = catchAsync(async function (req, res, next) {
 	const comics = await Books.find();
+
 	res.status(200).send({
 		status: "success",
 		data: {

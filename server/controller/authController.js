@@ -65,7 +65,6 @@ const upload = multer({
 
 exports.uploadImage = upload.single("image");
 
-
 async function uploadImageFire(file) {
 	const storageFB = getStorage();
 
@@ -162,6 +161,8 @@ exports.protect = catchAsync(async function (req, res, next) {
 	} else if (req.cookies && req.cookies.jwt) {
 		tokenHash = req.cookies.jwt;
 	}
+
+	console.log({ coookies: req.cookies });
 
 	if (!tokenHash)
 		return next(new AppError("Please login to get access", 400));

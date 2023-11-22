@@ -28,6 +28,7 @@ const { webhookCheckout } = require("./controller/bookingsController");
 const app = express();
 
 if (process.env.NODE_ENV === "production") {
+	app.set("trust proxy", true);
 	const limiter = rateLimit({
 		max: 100,
 		windowMs: 60 * 60 * 1000,
@@ -35,12 +36,6 @@ if (process.env.NODE_ENV === "production") {
 	});
 	app.use("/api", limiter);
 }
-
-app.post(
-	"/webhook-checkout",
-	express.raw({ type: "application/json" }),
-	webhookCheckout
-);
 
 const corsOptions = {
 	origin: true, //included origin as true
@@ -58,6 +53,13 @@ app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
 app.use(cookieParser());
+
+app.post(
+	"/webhook-checkout",
+	express.raw({ type: "application/json" }),
+	webhookCheckout
+);
+
 app.use(
 	express.json({
 		limit: 1024 * 1024 * 1024,
@@ -75,10 +77,10 @@ app.get("/api/v1/pk_variance", (req, res, next) => {
 });
 app.post("/api/v1/contactUs", contactUs);
 
-app.use(express.static(path.join(__dirname, "FrontEnd", "dist")));
+app.use(express.static(path.join(__dirname, "dist")));
 app.get("/*", (req, res, next) => {
-	res.send(path.join(__dirname, "FrontEnd", "dist/index.html"));
-	next();
+	res.sendFile(path.join(__dirname, "dist", "index.html"));
+	// next();
 });
 
 app.all("*", (req, res, next) => {

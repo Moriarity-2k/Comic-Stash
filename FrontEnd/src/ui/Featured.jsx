@@ -26,10 +26,4 @@ function Featured({ fetchedBooks, name, render }) {
 	);
 }
 
-Featured.propTypes = {
-	fetchedBooks: PropTypes.string,
-	name: PropTypes.string,
-	render: PropTypes.func,
-};
-
 export default Featured;

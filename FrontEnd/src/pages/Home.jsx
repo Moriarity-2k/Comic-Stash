@@ -15,7 +15,6 @@ function Home() {
 		queryKey: ["All-books"],
 		queryFn: async () => {
 			const books = await axios(`${base}/api/v1/books`);
-			console.log(books);
 			return books.data.data.comics;
 		},
 	});
@@ -28,10 +27,10 @@ function Home() {
 		<div className="w-[95%] pt-4 pb-4 mt-14 lg:mt-20  mx-auto">
 			<div className="my-16">
 				<Featured
-					name="featured"
+					name="new arrivals"
 					fetchedBooks={fetchedBooks}
 					render={(x) => {
-						if (x.ratingsAverage >= 4.1) {
+						if (x.publishedAt.split("-")[0] >= 2022) {
 							return (
 								<EachCard
 									key={x._id}
@@ -46,11 +45,12 @@ function Home() {
 						}
 					}}
 				/>
+
 				<Featured
-					name="new arrivals"
+					name="featured"
 					fetchedBooks={fetchedBooks}
-					render={(x) => {
-						if (x.publishedAt.split("-")[0] >= 2022) {
+					render={(x, i) => {
+						if (x.ratingsAverage >= 4.1) {
 							return (
 								<EachCard
 									key={x._id}

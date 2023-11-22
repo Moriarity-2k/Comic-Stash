@@ -24,8 +24,8 @@ import Error from "./ui/Error";
 import AdminView from "./pages/AdminView";
 import Contact from "./Features/Contact Form/Contact";
 
-// export const base = "http://localhost:3000";
-export const base = "";
+export const base = "http://localhost:3000";
+// export const base = "https://comic-stash-th48.onrender.com";
 
 const queryClient = new QueryClient({
 	defaultOptions: {

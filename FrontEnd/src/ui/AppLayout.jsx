@@ -11,11 +11,11 @@ function AppLayout() {
 	return (
 		<>
 			<div
-				className="min-h-[100vh] overflow-hidden"
-				style={{
-					backgroundImage:
-						"linear-gradient(to bottom, #072142, #061c37, #07182b, #061220, #020b16)",
-				}}
+				className="min-h-[100vh] overflow-hidden bg-dark-100 "
+				// style={{
+				// 	backgroundImage:
+				// 		"linear-gradient(to bottom, #072142, #061c37, #07182b, #061220, #020b16)",
+				// }}
 			>
 				<Header />
 				<div className="min-h-[77vh]">

@@ -38,8 +38,6 @@ function Product() {
 		queryFn: async () => {
 			const x = await axios(`${base}/api/v1/books/${id}`);
 
-			console.log(x.data.data);
-
 			return x.data.data.comic;
 		},
 	});
@@ -64,9 +62,10 @@ function Product() {
 			setAlreadyPresent(true);
 			return;
 		}
+
 		dispatch(
 			add_item({
-				id,
+				id: eachComic._id,
 				name: eachComic.name,
 				price: eachComic.price,
 				image: eachComic.image,
@@ -82,7 +81,7 @@ function Product() {
 		if (wishNum + num > 0) {
 			dispatch(
 				add_cart({
-					id,
+					id: eachComic._id,
 					quantity: wishNum + num,
 					name: eachComic.name,
 					price: eachComic.price,

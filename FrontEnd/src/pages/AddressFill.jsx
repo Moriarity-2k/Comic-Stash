@@ -24,19 +24,27 @@ const AdFill = () => {
 		const variance = await axios.get(`${base}/api/v1/pk_variance`);
 		const stripe = await loadStripe(variance.data.variance);
 
-		const session = await axios(
-			`${base}/api/v1/bookings/create-checkout-session`,
-			{
-				method: "post",
-				data: {
-					products: cartItems,
-				},
-				headers: {
-					"Content-Type": "application/json",
-				},
-				withCredentials: "include",
-			}
-		);
+		let session;
+
+		console.log("In the session");
+
+		try {
+			session = await axios(
+				`${base}/api/v1/bookings/create-checkout-session`,
+				{
+					method: "post",
+					data: {
+						products: cartItems,
+					},
+					headers: {
+						"Content-Type": "application/json",
+					},
+					withCredentials: "include",
+				}
+			);
+		} catch (err) {
+			console.log("Session Error : ", err);
+		}
 
 		const result = await stripe.redirectToCheckout({
 			sessionId: session.data.id,

@@ -81,7 +81,7 @@ const AdminBook = ({
 
 	const {
 		mutate: updateBook,
-		// reset: updateReset,
+		reset: updateReset,
 		isPending: updationPending,
 	} = useMutation({
 		mutationKey: ["updateBookData"],
@@ -90,7 +90,7 @@ const AdminBook = ({
 			toast.success("Update succesful");
 			client.invalidateQueries({ queryKey: "All-Books" });
 			cancelButton();
-			// updateReset();
+			updateReset();
 		},
 		onError: (error) => {
 			toast.error(error.message);

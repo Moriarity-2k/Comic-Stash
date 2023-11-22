@@ -49,3 +49,6 @@ cd Comic-Stash
   ```
   
 #### OUTPUT
+
+![Comic Cover](images/comic-cover.jpg)
+

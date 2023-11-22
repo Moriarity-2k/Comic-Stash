@@ -2,7 +2,7 @@
 
 
 ## Tech Stack
-- Frontend : [React.js](https://react.dev/learn) with vite
+- Frontend : [React.js](https://react.dev/learn) with vite , Redux, React-Query ,React-Hook-Form
 - Backend  : Node.js, [Express.js](https://expressjs.com/en/5x/api.html)
 - Database : [MongoDB](https://www.mongodb.com/docs/atlas/app-services/data-api/)
 - Authentication : JSON Web Tokens [JWT](https://jwt.io/introduction)

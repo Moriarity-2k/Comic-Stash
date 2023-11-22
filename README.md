@@ -45,12 +45,17 @@ cd Comic-Stash
  cd client && npm i 
   ```
    ```bash 
- cd server && npm i 
-  ```
-  
-#### OUTPUT 
-![4_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/c6284390-1736-4e3e-875d-554a8f3edc11)
-![3_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/a1aa0833-fa58-467c-a0d5-771679d17d02)
-![2_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/2ea865cf-945e-48ef-876a-674df645ae55)
-![1_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/d9ad84f5-41c4-489d-9978-b1c32bb268ff)
+ cd server && npm i
+```
+
+### OUTPUT
+![6_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/544ad5ba-e320-4d03-ba98-b7eb77455d2e)
+![4_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/f928ebce-d238-407b-86e4-4651ba978b43)
+![8_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/e384f177-b66d-4614-b9f4-ab0124b4076a)
+![3_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/8c74666d-bbb3-4cb1-bbee-cc7c008d9d85)
+
+
+##### Admin View : 
+![2_CS](https://github.com/Moriarity-2k/Comic-Stash/assets/143058936/80599b9e-4e95-4df9-88fc-3ae0ed5f8ea5)
+
 

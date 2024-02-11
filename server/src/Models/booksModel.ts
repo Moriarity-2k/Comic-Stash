@@ -1,7 +1,21 @@
-const mongoose = require("mongoose");
-const { default: slugify } = require("slugify");
+import mongoose, { Model } from "mongoose";
+import slugify from "slugify";
 
-const booksSchema = new mongoose.Schema(
+interface booksSchemaInterface {
+	name: string;
+	description: string;
+	publishedAt: Date;
+	ratingsAverage?: number;
+	image?: string;
+	numRatings?: number;
+	genre?: string;
+	numPages: number;
+	author: string;
+	price: number;
+	slug?: string;
+}
+
+const booksSchema = new mongoose.Schema<booksSchemaInterface>(
 	{
 		name: {
 			type: String,
@@ -20,7 +34,7 @@ const booksSchema = new mongoose.Schema(
 			default: 4.5,
 			min: [1, "Rating must be >= 1"],
 			max: [5, "Rating must be <= 5"],
-			set: function (val) {
+			set: function (val: number) {
 				return ((val * 10) / 10).toFixed(1);
 			},
 		},
@@ -56,11 +70,14 @@ const booksSchema = new mongoose.Schema(
 	}
 );
 
-booksSchema.pre("save", function (next) {
+booksSchema.pre<booksSchemaInterface>("save", function (next) {
 	this.slug = slugify(this.name, { lower: true });
 	next();
 });
 
-const Books = mongoose.model("Books", booksSchema);
+const Books: Model<booksSchemaInterface> = mongoose.model<booksSchemaInterface>(
+	"Books",
+	booksSchema
+);
 
-module.exports = Books;
+export default Books;

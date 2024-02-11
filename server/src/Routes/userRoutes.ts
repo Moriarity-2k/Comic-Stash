@@ -1,19 +1,19 @@
-const { Router } = require("express");
-const {
-	signUp,
+import { Router } from "express";
+import {
+	forgotpassword,
 	login,
 	protect,
-	forgotpassword,
 	resetPassword,
 	restricTo,
-} = require("../controller/authController");
-const {
+	signUp,
+} from "../controller/authController";
+import {
+	deleteUser,
 	getAllUsers,
+	logOut,
 	updateMe,
 	updatePassword,
-	logOut,
-	deleteUser,
-} = require("../controller/userController");
+} from "../controller/userController";
 
 const router = Router();
 
@@ -34,4 +34,4 @@ router.route("/").get(getAllUsers);
 
 router.route("/:id").delete(deleteUser);
 
-module.exports = router;
+export default router;

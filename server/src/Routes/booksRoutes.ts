@@ -1,24 +1,24 @@
-const { Router } = require("express");
-const {
-	getAllBooks,
+import { Router } from "express";
+import {
 	createBook,
+	deleteOneBook,
+	getAllBooks,
 	getOneBook,
 	updateOneBook,
-	deleteOneBook,
-} = require("../controller/booksController");
-const reviewRouter = require("./reviewRoutes");
-const {
+} from "../controller/booksController";
+
+import reviewRouter from "./reviewRoutes";
+import {
 	protect,
+	resizeComicImages,
 	restricTo,
 	uploadImage,
-	resizeComicImages,
-} = require("../controller/authController");
+} from "../controller/authController";
 
 const router = Router();
 
 router.use("/:bookId/reviews", reviewRouter);
 
-// get and create
 router
 	.route("/")
 	.get(getAllBooks)
@@ -37,4 +37,4 @@ router
 	.patch(protect, restricTo("author", "admin", "owner"), updateOneBook)
 	.delete(protect, restricTo("admin", "author", "owner"), deleteOneBook);
 
-module.exports = router;
+export default router;

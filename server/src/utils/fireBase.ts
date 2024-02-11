@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-const { initializeApp } = require("firebase/app");
-const { getAuth } = require("firebase/auth");
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
 	apiKey: process.env.FIREBASE_APIKEY,
@@ -14,6 +14,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-module.exports = {
-	auth,
-};
+export default auth

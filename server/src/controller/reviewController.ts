@@ -1,8 +1,14 @@
-const Review = require("../Models/reviewsModel");
-const AppError = require("../utils/appError");
-const catchAsync = require("../utils/catchAsync");
+import { NextFunction, Request, Response } from "express";
+import Review from "../Models/reviewsModel";
+import AppError from "../utils/appError";
+import catchAsync from "../utils/catchAsync";
+import { IUserId } from "./userController";
 
-exports.getAllReviews = catchAsync(async function (req, res, next) {
+export const getAllReviews = catchAsync(async function (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
 	if (!req.params.bookId) {
 		return next(new AppError("You need to specify a book Id", 400));
 	}
@@ -24,13 +30,17 @@ exports.getAllReviews = catchAsync(async function (req, res, next) {
 	});
 });
 
-exports.createReview = catchAsync(async function (req, res, next) {
+export const createReview = catchAsync(async function (
+	req: IUserId,
+	res: Response,
+	next: NextFunction
+) {
 	if (!req.body.comic && !req.params.bookId) {
 		return next(new AppError("You need to specify a book Id", 400));
 	}
 
 	if (!req.body.user) {
-		req.body.user = req.user.id;
+		req.body.user = req.user?.id;
 	}
 
 	if (!req.body.comic) {
@@ -53,13 +63,17 @@ exports.createReview = catchAsync(async function (req, res, next) {
 	res.status(200);
 });
 
-exports.deleteReview = catchAsync(async function (req, res, next) {
+export const deleteReview = catchAsync(async function (
+	req: IUserId,
+	res,
+	next
+) {
 	if (!req.body.comic && !req.params.bookId) {
 		return next(new AppError("You need to specify a book Id", 400));
 	}
 
 	if (!req.body.user) {
-		req.body.user = req.user.id;
+		req.body.user = req.user?.id;
 	}
 
 	if (!req.body.comic) {

@@ -1,7 +1,15 @@
-const mongoose = require("mongoose");
-const Books = require("./booksModel");
+import mongoose, { Types } from "mongoose";
+import Books from "./booksModel";
 
-const reviewSchema = new mongoose.Schema(
+interface IReview {
+	review: string;
+	rating: number;
+	postedAt: Date;
+	comic: Types.ObjectId;
+	user: Types.ObjectId;
+}
+
+const reviewSchema = new mongoose.Schema<IReview>(
 	{
 		review: {
 			type: String,
@@ -33,15 +41,15 @@ const reviewSchema = new mongoose.Schema(
 	}
 );
 
-reviewSchema.index({ comic: 1, user: 1 }, { unique: 1 });
+reviewSchema.index({ comic: 1, user: 1 }, { unique: true });
 
-reviewSchema.pre("save", async function (next) {
+reviewSchema.pre<IReview>("save", async function (this: any, next: () => void) {
 	const book = await Books.findById(this.comic);
-    
+
 	if (book) {
-		let rating = book.ratingsAverage * (book.numRatings || 1);
+		let rating = book.ratingsAverage! * (book.numRatings || 1);
 		rating += this.rating;
-		const newNum = Number(book.numRatings + 1) || 2;
+		const newNum = Number(book.numRatings! + 1) || 2;
 
 		book.numRatings = newNum;
 		book.ratingsAverage = rating / newNum;
@@ -52,4 +60,4 @@ reviewSchema.pre("save", async function (next) {
 
 const Review = mongoose.model("Reviews", reviewSchema);
 
-module.exports = Review;
+export default Review;
